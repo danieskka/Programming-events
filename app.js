@@ -1,42 +1,43 @@
-const express = require('express')
-const cowsay = require('cowsay')
+const express = require('express');
 
 const morgan = require('./utils/morgan')
-const error404 = require('./middlewares/error404')
+const error404 = require('./middlewares/error404');
 
-// Módulos de Rutas
-const entriesApiRoutes = require('./routes/entriesApiRoutes')
-const authorsApiRoutes = require('./routes/authorsApiRoutes')
+const app = express();
+const port = 3000;
 
-const app = express()
-const port = 3000
+const eventsRoutes = require('./routes/eventsRoutes')
+const eventsApiRoutes = require('./routes/eventsApiRoutes')
 
-// Middlewares
-app.use(express.json()); // Habilitar tipo de dato a recibir
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Logger
 app.use(morgan(':method :host :status :param[id] - :response-time ms :body'));
+app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-    res.json({msg: "Home"})
-})
+// Endpoints Web
+app.use('/',eventsRoutes);
+app.use('/signup',eventsRoutes);
+app.use('/login',eventsRoutes);
+app.use('/favorites',eventsRoutes);
+app.use('/profile',eventsRoutes);
+app.use('/users',eventsRoutes);
+app.use('/dashboard',eventsRoutes);
 
-//Rutas 
+// Endpoints API
 
-app.use('/api/entries',entriesApiRoutes); // Rutas API entries
-app.use('/api/authors',authorsApiRoutes); // Rutas API authors
+app.use('/api/user',eventsApiRoutes);
+app.use('/api/login',eventsApiRoutes);
+app.use('/api/logout',eventsApiRoutes);
+app.use('/api/search',eventsApiRoutes);
+app.use('/api/ads',eventsApiRoutes);
+app.use('/recoverpassword',eventsApiRoutes);
+app.use('/restorepassword',eventsApiRoutes);
 
-app.use(error404); // Middleware Para ruta no encontrada (404)
+app.use(error404);
 
 app.listen(port, () => {
-    console.log(
-        cowsay.say({
-            text: `Nos vamos a por tortilla (si queda) Example app listening on port http://localhost:${port}`,
-            e: "oO",
-            T: "U "
-        }))
+    console.log(`Puerto funcionando en el siguiente enlace: http://localhost:${port}`)
 })
-
-const testing = "commit"
-
