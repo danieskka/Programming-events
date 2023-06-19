@@ -3,27 +3,27 @@ const getHome = (req, res) => {
 }
 
 const signUp = (req, res) => {
-    res.status(200).send("Has mandado un GET de signUp")
+    res.render("signup");
 }
 
 const login = (req, res) => {
-    res.status(200).send("Has mandado un GET de login")
+    res.render("login");
 }
 
 const favorites = (req, res) => {
-    res.status(200).send("Has mandado un GET de favoritos")
+    res.render("favorites");
 }
 
 const profile = (req, res) => {
-    res.status(200).send("Has mandado un GET de profile")
+    res.render("profile");
 }
 
 const users = (req, res) => {
-    res.status(200).send("Has mandado un GET de users")
+    res.render("users")
 }
 
 const dashboard = (req, res) => {
-    res.status(200).send("Has mandado un GET de dashboard")
+    res.render("dashboard")
 }
 
 module.exports = {
