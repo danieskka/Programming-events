@@ -1,5 +1,5 @@
 const getHome = (req, res) => {
-    res.status(200).send("Has mandado un GET de la home")
+    res.render("home");
 }
 
 const signUp = (req, res) => {
