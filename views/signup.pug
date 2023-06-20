@@ -8,10 +8,14 @@ html(lang="en")
         h1 Por favor registrese a continuacion
         main
         form(action="/signup/", method="post")
-          label
-            span Sign Up
-            input(type="text" name="user")
-            input(type="password" name="password")
+          article
+            h2 Sign Up
+              p Introduzca su nombre:
+                input(type="text" name="name")
+              p Introduzca su email:
+                input(type="email" name="email")
+              p Introduzca su contraseña:
+                input(type="password" name="password")
           button(type="submit") Enviar
 
         include ./footer
