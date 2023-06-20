@@ -60,7 +60,7 @@ const scrap = async (url) => {
         const urls = await tmpurls.filter((link,index) =>{ return tmpurls.indexOf(link) === index})
         console.log("url capuradas",urls)
         // Me quedo con los 20 primeros productos, porque sino es muy largo
-        const urls2 = urls.slice(0, 21);
+        const urls2 = urls.slice(0, 10);
         // Filtramos los productos
         // Extraemos el dato de cada producto
         // await extractProductData(urls2[productLink],browser)
