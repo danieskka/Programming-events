@@ -1,91 +1,107 @@
 const puppeteer = require("puppeteer");
 const fs = require('fs');
-// Creamos una función para extraer la información de cada producto
-const extractProductData = async (url,browser) => {
+
+const extracteventData = async (url,browser) => {
     try{
-        // Creamos un objeto vacío donde almacenaremos la información de cada producto
-        const productData = {}
-        // Abrimos una nueva pestaña
+        const eventData = {}
         const page = await browser.newPage()
-        // Accedemos al link de cada producto que nos llega por parámetros
         await page.goto(url)
-        // Utilizamos el método newPage.$eval(selector, function) y almacenamos en productData:
-        /********** A RELLENAR todos los page.$eval(selector, function)  *********/
-        //titulo
-        productData['name'] = await page.$eval('.event-title', name=>name.innerText)
-        //precio
-        // if(await page.$('.ticket-selection-compact')) {
-        //     // selector was found in the page
-        //     productData['price'] = await page.$eval('.ticket-selection-compact',price=>price.innerText)
-        // } else {
-        //     // selector not found
-        //     productData['price'] = await page.$eval('.ticket-selection-compact',price=>price.innerText)
-        // }
-        //imagenes
-        productData['img'] = await page.$eval('img', img=>img.src)
-        //info
-        productData['info'] = await page.$eval(".event-details__section", info=>info.innerText)
-        //descripción
-        productData['description'] = await page.$eval('.event-details__main-inner', description=>description.innerText.slice(0,200) + '...')
+    //     await page.waitForSelector('label.ChoiceListItem_choice__hikcw', { visible: true });
+    //     await page.click('label.ChoiceListItem_choice__hikcw');
         
-        return productData // Devuelve los datos de un producto
+
+    //    eventData['Free'] = await page.$$eval('.ChoiceListItem_label__hikcw', (elementos) => {
+    //         const data = [];
+          
+    //         elementos.forEach((elemento) => {
+    //           const titulo = elemento.querySelector('.event-title').innerText;
+    //           const descripcion = elemento.querySelector('.event-details__main-inner').innerText;
+          
+    //           data.push({ titulo, descripcion });
+    //         });
+          
+    //         return data;
+    //       });
+          
+    //       console.log(resultados);
+         
+          
+        eventData['name'] = await page.$eval('.event-title', name => name.innerText)
+        // await page.waitForSelector('.ticket-card-compact-size__price-container');
+
+
+        // await page.waitForSelector('div.ticket-card-compact-size__price-container div.ticket-card-compact-size__price span.eds-text-bm eds-text-weight--heavy');
+        // eventData['price'] = await page.$eval('div.ticket-card-compact-size__price-container div.ticket-card-compact-size__price span.eds-text-bm eds-text-weight--heavy', priceElement => priceElement.textContent);
+
+        
+
+        // eventData['price'] = await page.$eval('.ticket-card-compact-size__price', price => {
+        //   if (price.childNodes.length > 0) {
+        //     const firstChild = price.childNodes[0];
+        //     if (firstChild.childNodes.length > 0) {
+        //       const secondChild = firstChild.childNodes[0];
+        //       if (secondChild.childNodes.length > 0) {
+        //         const grandChild = firstChild.childNodes[0];
+        //         return grandChild.innerHTML;
+        //       }
+        //     }
+        //   }
+        //   return null;
+        // });
+
+        eventData['image'] = await page.$eval('img', img => img.src)
+        eventData['info'] = await page.$eval(".event-details__section", info => info.innerText)
+        eventData['description'] = await page.$eval('.event-details__main-inner', description=>description.innerText.slice(0,200) + '...')
+
+       
+        
+        eventData['name'] = eventData['name'].replace(/\n/g, ' ');
+        // eventData['price'] = eventData['price'].replace(/\n/g, ' ' );
+        eventData['info'] = eventData['info'].replace(/\n/g, ' ');
+        eventData['description'] = eventData['description'].replace(/\n/g, ' ');
+        
+        
+        
+        return eventData
     }
     catch(err){
-        // Devolvemos el error 
        return {error:err}
     }
     
 }
-// Para iniciar todo el scraping
+
 const scrap = async (url) => {
     try {
-        // Creamos un array vacío scrapedData donde almacenaremos la información obtenida del scraping
         const scrapedData = []
-        // inicializamos una instancia del navegador (browser) con puppeteer.launch() y añadimos en el objeto de configuración la opción headless
         console.log("Opening the browser......");
         const browser = await puppeteer.launch({headless:true})
-        // Abrimos una nueva pestaña en el navegador creando una instancia con el método newPage() a la que llamaremos page
+        
         const page = await browser.newPage();
-        // Indicamos la url que debe cargarse en la pestaña con page.goto(url)
         await page.goto(url);
         console.log(`Navigating to ${url}...`);
-        // Extraemos todos los links a los que luego navegaremos para obtener el detalle de cada producto
-        // Utilizamos el método $$eval(selector, callback) para capturar una colección de nodos y aplicar la lógica que necesitemos
-        // En este caso , en el CB filtramos el array de items, guardando en un nuevo array
-        /********** A RELLENAR page.$eval(selector, function)  *********/
-        //[] de URLs
         const tmpurls = await page.$$eval('.Stack_root__1ksk7 a', res => res.map(a=>a.href))
-        
-        //Quitamos los duplicados
         const urls = await tmpurls.filter((link,index) =>{ return tmpurls.indexOf(link) === index})
         console.log("url capuradas",urls)
-        // Me quedo con los 20 primeros productos, porque sino es muy largo
-        const urls2 = urls.slice(0, 21);
-        // Filtramos los productos
-        // Extraemos el dato de cada producto
-        // await extractProductData(urls2[productLink],browser)
+        const urls2 = urls.slice(0, 15);
         console.log(`${urls2.length} links encontrados`);
-        // Iteramos el array de urls con un bucle for/in y ejecutamos la promesa extractProductData por cada link en el array. Luego pusheamos el resultado a scraped data
-        for(productLink in urls2){
-            const product = await extractProductData(urls2[productLink],browser)
+        
+        for(eventLink in urls2){
+            const product = await extracteventData(urls2[eventLink],browser)
             scrapedData.push(product)
         }
-        
         console.log(scrapedData, "Lo que devuelve mi función scraper", scrapedData.length) 
-       
-        // cerramos el browser con el método browser.close
         await browser.close()
-        // Escribimos los datos en un archivo .json
+
+
         fs.writeFile('scrapedData.json', JSON.stringify(scrapedData, null, 2), (err) => {
             if (err) throw err;
             console.log('Datos guardados en scrapedData.json');
         });
-        // Devolvemos el array con los productos
+      
         return scrapedData;
     } catch (err) {
         console.log("Error:", err);
     }
 }
 exports.scrap = scrap;
-/********** DESCOMENTAR PARA PROBAR *********/
- scrap("https://www.eventbrite.es/d/spain--madrid/development/").then(data =>console.log(data))
+scrap("https://www.eventbrite.es/d/spain/development/").then(data =>console.log('Data', data))

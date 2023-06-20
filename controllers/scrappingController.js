@@ -1,4 +1,4 @@
-const scraper = require('../utils/scraper') // ---Descomenta esta línea---
+const scraper = require('../utils/scraper') 
 
 module.exports = {
     getHello: async (req, res) => {
@@ -6,10 +6,8 @@ module.exports = {
     },
     getEvents: async (req, res) => {
         try {
-            // ---Descomenta las 2 siguientes líneas para hacer scraping---
-            const events = await scraper.scrap("https://www.eventbrite.es/d/spain--madrid/development/"); 
+            const events = await scraper.scrap("https://www.eventbrite.es/d/spain/development/"); 
             res.status(200).json(events);
-            //res.status(200).json({"mensaje":"Aquí irán los productos"}); // ---Comenta esta línea---
 
         } catch (error) {
             res.status(404).json({})
@@ -18,3 +16,5 @@ module.exports = {
     }
     
 }
+
+
