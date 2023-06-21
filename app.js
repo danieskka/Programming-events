@@ -21,7 +21,6 @@ app.use(express.static('public'));
 app.use('/',eventsRoutes);
 
 // Endpoints API
-
 app.use('/api/',eventsApiRoutes);
 
 // Errores

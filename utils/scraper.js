@@ -86,6 +86,8 @@ const scrap = async (url) => {
         console.log("Error:", err);
     }
 }
-exports.scrap = scrap;
+module.exports = {
+    scrap: scrap
+}
 /********** DESCOMENTAR PARA PROBAR *********/
- scrap("https://www.eventbrite.es/d/spain--madrid/development/").then(data =>console.log(data))
+//  scrap("https://www.eventbrite.es/d/spain--madrid/development/").then(data =>console.log(data))

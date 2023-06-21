@@ -1,3 +1,5 @@
+const scraper = require('../utils/scraper')
+
 const registerProfile = (req, res) => {
     res.status(200).send("Has mandado un POST de registro!");
 }
@@ -18,8 +20,18 @@ const userLogout = (req, res) => {
     res.status(200).send("Has mandado un POST de salir!");
 }
 
-const getEvents = (req, res) => {
-    res.status(200).send("Has mandado un GET de resultados de busqueda!");
+const getScrapEvents = async (req, res) => {
+    try {
+        const search = req.query.search;
+        const data = await scraper.scrap("https://www.eventbrite.es/d/spain--madrid/development/")
+
+        const filteredData = data.filter(result => result.info.toLowerCase().includes(search.toLowerCase()))
+
+        res.render('home', { searchData: filteredData});
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({error: 'Ups algo fue mal, intentalo de nuevo'})
+    }
 }
 
 const createEvent = (req, res) => {
@@ -56,7 +68,7 @@ module.exports = {
     deleteProfile,
     userLogin,
     userLogout,
-    getEvents,
+    getScrapEvents,
     createEvent,
     editEvent,
     deleteEvent,
