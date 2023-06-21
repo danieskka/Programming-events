@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Pagina de signup
+    body  
+        h1 Por favor registrese a continuacion
+        main
+        form(action="/signup/", method="post")
+          article
+            h2 Sign Up
+              p Introduzca su nombre:
+                input(type="text" name="name")
+              p Introduzca su email:
+                input(type="email" name="email")
+              p Introduzca su contraseña:
+                input(type="password" name="password")
+          button(type="submit") Enviar
+
+        include ./footer
