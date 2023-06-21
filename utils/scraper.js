@@ -31,7 +31,7 @@ const extracteventData = async (url,browser) => {
 
 
         // await page.waitForSelector('div.ticket-card-compact-size__price-container div.ticket-card-compact-size__price span.eds-text-bm eds-text-weight--heavy');
-        // eventData['price'] = await page.$eval('div.ticket-card-compact-size__price-container div.ticket-card-compact-size__price span.eds-text-bm eds-text-weight--heavy', priceElement => priceElement.textContent);
+        eventData['price'] = await page.$eval('.ticket-card-compact-size__price> span', priceElement => priceElement.innerText);
 
         
 
