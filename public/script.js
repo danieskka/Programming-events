@@ -47,23 +47,36 @@
 //   });
 // }
 
-if (document.getElementById('searchButton')) {
-  document.getElementById('searchButton').addEventListener('click', async function (event) {
-    event.preventDefault();
+// if (document.getElementById('searchButton')) {
+//   document.getElementById('searchButton').addEventListener('click', async function (event) {
+//     event.preventDefault();
 
-    const searchInput = document.getElementById('searchInput').value;
+//     const searchInput = document.getElementById('searchInput').value;
 
-    try {
-      const response = await fetch(`/api/search?search=${searchInput}`);
-      const html = await response.text();
+//     try {
+//       const response = await fetch(`/api/search?search=${searchInput}`);
+//       const html = await response.text();
 
-      // Inserta el HTML recibido en el DOM
-      const resultsContainer = document.getElementById('results');
-      resultsContainer.innerHTML = html;
+//       // Inserta el HTML recibido en el DOM
+//       const resultsContainer = document.getElementById('results');
+//       resultsContainer.innerHTML = html;
 
-    } catch (error) {
-      console.error(error);
-    }
-  });
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   });
+// }
+
+async function getEventsFromDatabase() {
+  try {
+    const database = client.db('test'); // Reemplaza esto con el nombre de tu base de datos
+    const collection = database.collection('EventBrite'); // Reemplaza esto con el nombre de tu colección
+    const events = await collection.find().toArray();
+    console.log('Eventos obtenidos:', events);
+    return events;
+  } catch (error) {
+    console.error('Error al obtener eventos', error);
+    return [];
+  }
 }
-
+getEventsFromDatabase()

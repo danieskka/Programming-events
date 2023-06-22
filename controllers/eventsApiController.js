@@ -1,3 +1,4 @@
+const Brite = require('../models/eventBrite');
 const scraper = require('../utils/scraper')
 
 const registerProfile = (req, res) => {
@@ -25,7 +26,7 @@ const getScrapEvents = async (req, res) => {
         const search = req.query.search;
         const data = await scraper.scrap("https://www.eventbrite.es/d/spain--madrid/development/")
 
-        const filteredData = data.filter(result => result.info.toLowerCase().includes(search.toLowerCase()))
+        const filteredData = data.filter(result => result.name.toLowerCase().includes(search.toLowerCase()))
 
         res.render('home', { searchData: filteredData});
     } catch (error) {
@@ -62,6 +63,21 @@ const restorePass = (req, res) => {
     res.render("restorepassword");
 }
 
+// Controller BBDD MongoDB
+
+const searchMongo = (req, res) => {
+    const searchData = req.body.searchData;
+
+    Brite.find({ name: {$regex: searchData, $options: 'i'}})
+    .then(Brite => {
+        res.render('home', {Brite})
+    })
+    .catch(error => {
+        console.error('Error al buscar usuarios:', error);
+        res.render('error');
+      });
+}
+
 module.exports = {
     registerProfile,
     editProfile,
@@ -75,5 +91,6 @@ module.exports = {
     addFavorite,
     deleteFavorite,
     recoverPass,
-    restorePass
+    restorePass,
+    searchMongo
 }
