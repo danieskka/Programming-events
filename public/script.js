@@ -67,16 +67,16 @@
 //   });
 // }
 
-async function getEventsFromDatabase() {
-  try {
-    const database = client.db('test'); // Reemplaza esto con el nombre de tu base de datos
-    const collection = database.collection('EventBrite'); // Reemplaza esto con el nombre de tu colección
-    const events = await collection.find().toArray();
-    console.log('Eventos obtenidos:', events);
-    return events;
-  } catch (error) {
-    console.error('Error al obtener eventos', error);
-    return [];
-  }
-}
-getEventsFromDatabase()
+// async function getEventsFromDatabase() {
+//   try {
+//     const database = client.db('test'); // Reemplaza esto con el nombre de tu base de datos
+//     const collection = database.collection('EventBrite'); // Reemplaza esto con el nombre de tu colección
+//     const events = await collection.find().toArray();
+//     console.log('Eventos obtenidos:', events);
+//     return events;
+//   } catch (error) {
+//     console.error('Error al obtener eventos', error);
+//     return [];
+//   }
+// }
+// getEventsFromDatabase()

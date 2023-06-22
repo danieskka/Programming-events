@@ -28,6 +28,6 @@ eventsApiRouter.get('/recoverpassword', eventsApiController.recoverPass);
 eventsApiRouter.get('/restorepassword', eventsApiController.restorePass);
 
 // RUTAS BBDD MONGODB
-eventsApiRouter.post('/buscar', eventsApiController.searchMongo);
+eventsApiRouter.get('/buscar', eventsApiController.searchMongo);
 
 module.exports = eventsApiRouter

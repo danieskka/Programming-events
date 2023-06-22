@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const objectSchema = {
     id: {
@@ -34,8 +34,8 @@ const objectSchema = {
     }
 }
 
-const briteSchema = mongoose.Schema(objectSchema)
+const briteSchema = new mongoose.Schema(objectSchema)
 
-const Brite = mongoose.model('Brite', briteSchema);
+const Brite = mongoose.model('events', briteSchema);
 
 module.exports = Brite;

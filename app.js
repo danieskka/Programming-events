@@ -1,5 +1,7 @@
 const express = require('express');
 
+require('./utils/mongo_db');
+
 const morgan = require('./utils/morgan')
 const error404 = require('./middlewares/error404');
 

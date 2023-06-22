@@ -64,18 +64,20 @@ const restorePass = (req, res) => {
 }
 
 // Controller BBDD MongoDB
-
-const searchMongo = (req, res) => {
-    const searchData = req.body.searchData;
-
-    Brite.find({ name: {$regex: searchData, $options: 'i'}})
-    .then(Brite => {
-        res.render('home', {Brite})
-    })
-    .catch(error => {
-        console.error('Error al buscar usuarios:', error);
-        res.render('error');
-      });
+const searchMongo = async (req,res) => {
+    
+    try {
+        let events = await Brite.find({});
+        console.log(events);
+        res.status(200).json(events);
+    }
+    catch (error) {
+        console.log(`ERROR: ${error.stack}`);
+        res.status(400).json({
+            msj: 'Ups algo fue mal, ha ocurrido un error'
+        });
+        
+    }
 }
 
 module.exports = {
