@@ -1,22 +1,6 @@
-const registerProfile = (req, res) => {
-    res.status(200).send("Has mandado un POST de registro!");
-}
+const event = require('./models/event')
 
-const editProfile = (req, res) => {
-    res.status(202).send("Has mandado un PUT de editar perfil usuario y admin!");
-}
-
-const deleteProfile = (req, res) => {
-    res.status(202).send("Has mandado un DELETE para eliminar un user!");
-}
-
-const userLogin = (req, res) => {
-    res.status(200).send("Has mandado un POST de login!");
-}
-
-const userLogout = (req, res) => {
-    res.status(200).send("Has mandado un POST de salir!");
-}
+// Obtiene todos los productos en la BBDD
 
 const getEvents = async (req, res) => {
 
@@ -27,6 +11,16 @@ const getEvents = async (req, res) => {
 
     res.status(200).json(event)
 }
+
+// POST -> http://localhost:3000/api/admin/events
+// Crea un nuevo producto en la BBDD
+
+// {
+//     "title": "The Bridge Tech Talk",
+//     "price": 10,
+//     "info": "Ven a descrubri los ultimo en tech",
+//     "image": "The Bridge School"
+// }
 
 const createEvent = async (req, res) => {
 
@@ -46,6 +40,16 @@ const createEvent = async (req, res) => {
     })
 }
 
+// PUT -> http://localhost:3000/api/admin/events
+// Actualiza un producto en la BBDD
+
+// {
+//     "title": "The Bridge Desafio de Tripulaciones",
+//     "price": "Gratis",
+//     "info": "Ven a ver los proyectos finales de nuestros tripulantes",
+//     "image": "https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.meridioband.com%2Fwp-content%2Fuploads%2F2018%2F02%2FMeridio_PostBlog-1160x400.png&tbnid=OepdFOWHNkW2PM&vet=12ahUKEwjhgoX81tb_AhXdnycCHVt0BTUQMygBegUIARC4AQ..i&imgrefurl=https%3A%2F%2Fwww.meridioband.com%2Fit%2F4-best-tech-events-in-the-world%2F&docid=_U-YJqR3rWxtcM&w=1160&h=400&q=tech%20event&ved=2ahUKEwjhgoX81tb_AhXdnycCHVt0BTUQMygBegUIARC4AQ"
+// }
+
 const editEvent = async (req, res) => {
     const {  title, price, info, image, new_title} = req.body;
 
@@ -58,6 +62,13 @@ const editEvent = async (req, res) => {
         updated_event: event
     })
 }
+
+// DELETE -> http://localhost:3000/api/admin/events
+// Borra un producto en la BBDD
+
+// {
+//     "title": "Tortilla"
+// }
 
 const deleteEvent = async (req, res) => {
 
@@ -73,35 +84,9 @@ const deleteEvent = async (req, res) => {
     })
 }
 
-
-const addFavorite = (req, res) => {
-    res.status(200).send("Has mandado un POST de guardar como favorito!");
-}
-
-const deleteFavorite = (req, res) => {
-    res.status(202).send("Has mandado un DELETE de favoritos!");
-}
-
-const recoverPass = (req, res) => {
-    res.status(200).send("Has mandado un GET de recuperar contraseña!");
-}
-
-const restorePass = (req, res) => {
-    res.status(200).send("Has mandado un GET de cambiar contraseña!");
-}
-
 module.exports = {
-    registerProfile,
-    editProfile,
-    deleteProfile,
-    userLogin,
-    userLogout,
     getEvents,
     createEvent,
     editEvent,
-    deleteEvent,
-    addFavorite,
-    deleteFavorite,
-    recoverPass,
-    restorePass
+    deleteEvent
 }

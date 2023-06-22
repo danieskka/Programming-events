@@ -6,49 +6,9 @@ const extracteventData = async (url,browser) => {
         const eventData = {}
         const page = await browser.newPage()
         await page.goto(url)
-    //     await page.waitForSelector('label.ChoiceListItem_choice__hikcw', { visible: true });
-    //     await page.click('label.ChoiceListItem_choice__hikcw');
-        
-
-    //    eventData['Free'] = await page.$$eval('.ChoiceListItem_label__hikcw', (elementos) => {
-    //         const data = [];
-          
-    //         elementos.forEach((elemento) => {
-    //           const titulo = elemento.querySelector('.event-title').innerText;
-    //           const descripcion = elemento.querySelector('.event-details__main-inner').innerText;
-          
-    //           data.push({ titulo, descripcion });
-    //         });
-          
-    //         return data;
-    //       });
-          
-    //       console.log(resultados);
-         
-          
-        eventData['name'] = await page.$eval('.event-title', name => name.innerText)
-        // await page.waitForSelector('.ticket-card-compact-size__price-container');
-
-
-        // await page.waitForSelector('div.ticket-card-compact-size__price-container div.ticket-card-compact-size__price span.eds-text-bm eds-text-weight--heavy');
-        eventData['price'] = await page.$eval('.ticket-card-compact-size__price> span', priceElement => priceElement.innerText);
-
-        
-
-        // eventData['price'] = await page.$eval('.ticket-card-compact-size__price', price => {
-        //   if (price.childNodes.length > 0) {
-        //     const firstChild = price.childNodes[0];
-        //     if (firstChild.childNodes.length > 0) {
-        //       const secondChild = firstChild.childNodes[0];
-        //       if (secondChild.childNodes.length > 0) {
-        //         const grandChild = firstChild.childNodes[0];
-        //         return grandChild.innerHTML;
-        //       }
-        //     }
-        //   }
-        //   return null;
-        // });
-
+        await  new Promise(r => setTimeout(r, 4000));
+        eventData['name'] = await page.$eval('.event-title', name => name.innerText)       
+        eventData['price'] = await page.$eval('.Stack_root__1ksk7 > p:nth-of-type(3)', priceElement => priceElement.innerText);
         eventData['image'] = await page.$eval('img', img => img.src)
         eventData['info'] = await page.$eval(".event-details__section", info => info.innerText)
         eventData['description'] = await page.$eval('.event-details__main-inner', description=>description.innerText.slice(0,200) + '...')
@@ -56,7 +16,7 @@ const extracteventData = async (url,browser) => {
        
         
         eventData['name'] = eventData['name'].replace(/\n/g, ' ');
-        // eventData['price'] = eventData['price'].replace(/\n/g, ' ' );
+        eventData['price'] = eventData['price'].replace(/\n/g, ' ' );
         eventData['info'] = eventData['info'].replace(/\n/g, ' ');
         eventData['description'] = eventData['description'].replace(/\n/g, ' ');
         
