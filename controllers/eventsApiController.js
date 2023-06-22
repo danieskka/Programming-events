@@ -83,11 +83,11 @@ const deleteFavorite = (req, res) => {
 }
 
 const recoverPass = (req, res) => {
-    res.status(200).send("Has mandado un GET de recuperar contraseña!");
+    res.render("recoverpassword");
 }
 
 const restorePass = (req, res) => {
-    res.status(200).send("Has mandado un GET de cambiar contraseña!");
+    res.render("restorepassword");
 }
 
 module.exports = {
