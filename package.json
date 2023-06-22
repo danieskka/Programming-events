@@ -1,40 +1,23 @@
 {
   "name": "programming-events",
   "version": "1.0.0",
-  "description": "Trabajo Grupal BackEnd",
+  "description": "",
   "main": "app.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/danieskka/programming-events.git#develop"
-  },
-  "author": "Rebeca Ismael y Daniel",
+  "author": "yo",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/danieskka/programming-events/issues"
-  },
-  "homepage": "https://github.com/danieskka/programming-events/tree/develop#readme",
   "dependencies": {
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "mongodb": "^5.6.0",
-    "mongoose": "^7.3.0",
-    "node-fetch": "^3.3.1",
-    "pg": "^8.11.0",
+    "moongose": "^1.0.0",
+    "postgres": "^3.3.5",
     "pug": "^3.0.2",
     "puppeteer": "^20.7.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.22",
-    "morgan": "^1.10.0",
-    "jest": "^29.5.0",
-    "helmet": "^7.0.0"
   }
 }
