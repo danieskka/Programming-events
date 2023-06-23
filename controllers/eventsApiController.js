@@ -1,3 +1,5 @@
+const Event = require('../models/event')
+
 const registerProfile = (req, res) => {
     res.status(200).send("Has mandado un POST de registro!");
 }
@@ -18,21 +20,62 @@ const userLogout = (req, res) => {
     res.status(200).send("Has mandado un POST de salir!");
 }
 
-const getEvents = (req, res) => {
-    res.status(200).send("Has mandado un GET de resultados de busqueda!");
+const getEvents = async (req, res) => {
+
+    const event = await Event
+        .find()
+        .populate('title price info image -_id')
+        .select('title price info image -_id');
+
+    res.status(200).json(event)
 }
 
-const createEvent = (req, res) => {
-    res.status(200).send("Has mandado un POST de crear un evento!");
+const createEvent = async (req, res) => {
+
+    const { title, price, info, image, id } = req.body
+
+    const event = new Event ({
+        id,
+        title,
+        price,
+        info,
+        image
+    });
+
+    const result = await event.save();
+    res.status(201).json({
+        message: `Evento creado`,
+        event: req.body
+    })
 }
 
-const editEvent = (req, res) => {
-    res.status(202).send("Has mandado un PUT de editar eventos!");
+const editEvent = async (req, res) => {
+    const {  id, title, price, info, image, new_title} = req.body;
+
+    const event = await Event
+    .findOneAndUpdate({title: title}, {title: new_title,  id, title, price, info, image}, {returnOriginal: false})
+    .select('-_id -__v')
+
+    res.status(200).json({
+        message: `Evento actualizado`,
+        updated_event: event
+    })
 }
 
-const deleteEvent = (req, res) => {
-    res.status(202).send("Has mandado un DELETE de eventos!");
+const deleteEvent = async (req, res) => {
+
+    const { title } = req.body
+
+    const event = await Event
+    .findOneAndDelete({title: title})
+    .select('-_id -__v')
+
+    res.status(200).json({
+        message: `Evento Borrado`,
+        deleted_event: event
+    })
 }
+
 
 const addFavorite = (req, res) => {
     res.status(200).send("Has mandado un POST de guardar como favorito!");
