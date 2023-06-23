@@ -1,6 +1,7 @@
 const express = require('express');
 const eventsApiRouter = express.Router();
 const eventsApiController = require('../controllers/eventsApiController');
+const scrapingController = require('../controllers/scrappingController')
 
 // Rutas /user
 eventsApiRouter.post('/user', eventsApiController.registerProfile);
@@ -12,7 +13,10 @@ eventsApiRouter.post('/login', eventsApiController.userLogin);
 eventsApiRouter.post('/logout', eventsApiController.userLogout);
 
 // Ruta /search
-eventsApiRouter.get('/search', eventsApiController.getScrapEvents);
+eventsApiRouter.get('/search', [
+    eventsApiController.searchMongo,
+    scrapingController.getEvents
+]);
 
 // Rutas /ads
 eventsApiRouter.post('/ads', eventsApiController.createEvent);
@@ -28,6 +32,9 @@ eventsApiRouter.get('/recoverpassword', eventsApiController.recoverPass);
 eventsApiRouter.get('/restorepassword', eventsApiController.restorePass);
 
 // RUTAS BBDD MONGODB
-eventsApiRouter.get('/buscar', eventsApiController.searchMongo);
+// eventsApiRouter.get('/buscar', [
+//     eventsApiController.searchMongo,
+//     eventsApiController.getScrapEvents
+// ]);
 
 module.exports = eventsApiRouter

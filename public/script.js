@@ -1,82 +1,40 @@
-// if (document.getElementById('searchButton')) {
-//   document.getElementById('searchButton').addEventListener('click', async function(event) {
-//     event.preventDefault();
+if (document.getElementById('searchButton')) {
+  document.getElementById('searchButton').addEventListener('click', async function(event) {
+    event.preventDefault();
   
-//     const searchInput = document.getElementById('searchInput').value;
+    const searchInput = document.getElementById('searchInput').value;
   
-//     try {
-//       if (searchInput.trim() === '') {
-//         console.log('Ingresa un término de búsqueda válido');
-//         return;
-//       }
-
-//       const response = await fetch(`/api/search?search=${searchInput}`);
-//       const data = await response.json();
-  
-//       const resultsContainer = document.getElementById('results');
-//       resultsContainer.innerHTML = '';
+    try {
       
-//       if (Array.isArray(data) && data.length > 0) {
-//         data.forEach(result => {
-//           const card = document.createElement('div');
-//           card.classList.add('card');
+      const response = await fetch(`/api/search?search=${searchInput}`);
+      const data = await response.json();
   
-//           const title = document.createElement('h3');
-//           title.textContent = result.name;
+      const resultsContainer = document.getElementById('results');
+      resultsContainer.innerHTML = '';
+      
+      if (Array.isArray(data) && data.length > 0) {
+        data.forEach(result => {
+          const card = document.createElement('div');
+          card.classList.add('card');
   
-//           const image = document.createElement('img');
-//           image.src = result.img;
+          const title = document.createElement('h3');
+          title.textContent = result.name;
   
-//           const description = document.createElement('p');
-//           description.textContent = result.description;
+          const image = document.createElement('img');
+          image.src = result.img;
   
-//           card.appendChild(title);
-//           card.appendChild(image);
-//           card.appendChild(description);
+          const description = document.createElement('p');
+          description.textContent = result.description;
   
-//           resultsContainer.appendChild(card);
-//         });
-//       } else {
-//         const noResultsMessage = document.createElement('p');
-//         noResultsMessage.textContent = 'No se encontraron resultados.';
-//         resultsContainer.appendChild(noResultsMessage);
-//       }
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   });
-// }
-
-// if (document.getElementById('searchButton')) {
-//   document.getElementById('searchButton').addEventListener('click', async function (event) {
-//     event.preventDefault();
-
-//     const searchInput = document.getElementById('searchInput').value;
-
-//     try {
-//       const response = await fetch(`/api/search?search=${searchInput}`);
-//       const html = await response.text();
-
-//       // Inserta el HTML recibido en el DOM
-//       const resultsContainer = document.getElementById('results');
-//       resultsContainer.innerHTML = html;
-
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   });
-// }
-
-// async function getEventsFromDatabase() {
-//   try {
-//     const database = client.db('test'); // Reemplaza esto con el nombre de tu base de datos
-//     const collection = database.collection('EventBrite'); // Reemplaza esto con el nombre de tu colección
-//     const events = await collection.find().toArray();
-//     console.log('Eventos obtenidos:', events);
-//     return events;
-//   } catch (error) {
-//     console.error('Error al obtener eventos', error);
-//     return [];
-//   }
-// }
-// getEventsFromDatabase()
+          card.appendChild(title);
+          card.appendChild(image);
+          card.appendChild(description);
+  
+          resultsContainer.appendChild(card);
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}

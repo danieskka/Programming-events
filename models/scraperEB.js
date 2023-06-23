@@ -52,7 +52,7 @@ async function loadData() {
       const jsonData = fs.readFileSync('./scrapedData.json', 'utf8');
       const data = JSON.parse(jsonData);
   
-      const collection = mongoose.connection.collection('EventBrite');
+      const collection = mongoose.connection.collection('eventest');
       const result = await collection.insertMany(data);
       console.log(`${result.insertedCount} documentos insertados.`);
   

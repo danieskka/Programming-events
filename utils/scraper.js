@@ -31,7 +31,7 @@ const extracteventData = async (url,browser) => {
 
 
         // await page.waitForSelector('div.ticket-card-compact-size__price-container div.ticket-card-compact-size__price span.eds-text-bm eds-text-weight--heavy');
-        eventData['price'] = await page.$eval('.ticket-card-compact-size__price> span', priceElement => priceElement.innerText);
+        // eventData['price'] = await page.$eval('.ticket-card-compact-size__price> span', priceElement => priceElement.innerText);
 
         
 
@@ -74,7 +74,7 @@ const scrap = async (url) => {
     try {
         const scrapedData = []
         console.log("Opening the browser......");
-        const browser = await puppeteer.launch({headless:true})
+        const browser = await puppeteer.launch({headless:false})
         
         const page = await browser.newPage();
         await page.goto(url);
