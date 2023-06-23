@@ -46,15 +46,15 @@ module.exports = Events;
 
 // Insertar un producto
 
-const p = new Events({
-    id: 6,
-    title: "Hola",
-    price: 1.80,
-    info: "Pruebas Pruebas",
-    image:"https://www.recetasderechupete.com/wp-content/uploads/2020/11/Tortilla-de-patatas-4-768x530.jpg"
-});
+// const p = new Events({
+//     id: 6,
+//     title: "Hola",
+//     price: 1.80,
+//     info: "Pruebas Pruebas",
+//     image:"https://www.recetasderechupete.com/wp-content/uploads/2020/11/Tortilla-de-patatas-4-768x530.jpg"
+// });
 
-// Guardar en la BBDD
-p.save()
-.then((data)=>console.log(data))
-.catch(err=>console.log(err)) 
+// // Guardar en la BBDD
+// p.save()
+// .then((data)=>console.log(data))
+// .catch(err=>console.log(err)) 

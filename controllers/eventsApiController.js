@@ -1,3 +1,5 @@
+const Event = require('../models/event')
+
 const registerProfile = (req, res) => {
     res.status(200).send("Has mandado un POST de registro!");
 }
@@ -20,7 +22,7 @@ const userLogout = (req, res) => {
 
 const getEvents = async (req, res) => {
 
-    const event = await event
+    const event = await Event
         .find()
         .populate('title price info image -_id')
         .select('title price info image -_id');
@@ -30,9 +32,10 @@ const getEvents = async (req, res) => {
 
 const createEvent = async (req, res) => {
 
-    const { title, price, info, image } = req.body
+    const { title, price, info, image, id } = req.body
 
-    const event = new event({
+    const event = new Event ({
+        id,
         title,
         price,
         info,
@@ -47,10 +50,10 @@ const createEvent = async (req, res) => {
 }
 
 const editEvent = async (req, res) => {
-    const {  title, price, info, image, new_title} = req.body;
+    const {  id, title, price, info, image, new_title} = req.body;
 
-    const event = await event
-    .findOneAndUpdate({title: title}, {title: new_title,  title, price, info, image, event_id}, {returnOriginal: false})
+    const event = await Event
+    .findOneAndUpdate({title: title}, {title: new_title,  id, title, price, info, image}, {returnOriginal: false})
     .select('-_id -__v')
 
     res.status(200).json({
@@ -63,7 +66,7 @@ const deleteEvent = async (req, res) => {
 
     const { title } = req.body
 
-    const event = await event
+    const event = await Event
     .findOneAndDelete({title: title})
     .select('-_id -__v')
 
