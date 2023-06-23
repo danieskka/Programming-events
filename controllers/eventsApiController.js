@@ -50,7 +50,6 @@ const userLogout = (req, res) => {
 }
 
 
-
 const getEvents = async (req, res) => {
 
     const event = await Event
@@ -168,6 +167,7 @@ module.exports = {
     deleteProfile,
     userLogin,
     userLogout,
+    getEvents,
     createEvent,
     editEvent,
     deleteEvent,
