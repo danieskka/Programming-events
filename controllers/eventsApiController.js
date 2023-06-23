@@ -23,9 +23,6 @@ const userLogout = (req, res) => {
 }
 
 
-const createEvent = (req, res) => {
-    res.status(200).send("Has mandado un POST de crear un evento!");
-
 const getEvents = async (req, res) => {
 
     const event = await Event
@@ -122,6 +119,7 @@ module.exports = {
     deleteProfile,
     userLogin,
     userLogout,
+    getEvents,
     createEvent,
     editEvent,
     deleteEvent,
