@@ -1,21 +1,48 @@
+
+const user = require('../models/queries'); // Importar el modelo de la BBDD
 const Brite = require('../models/eventBrite');
 
 const Event = require('../models/event')
 
-const registerProfile = (req, res) => {
-    res.status(200).send("Has mandado un POST de registro!");
+const registerProfile = async (req, res) => {
+    const newUser = req.body; // {name,email,password}
+    const response = await user.createUser(newUser);
+    res.status(201).json({
+        "message": `Creado: ${newUser.name}`
+    });
+}
+const getAllUsers = async (req, res) => {
+    let users;
+    if (req.query.email) {
+        users = await users.getUsersByEmail(req.query.email);
+    }
+    else {
+        users = await users.getUsers();
+    }
+    res.status(200).json(users); 
+}
+const editProfile = async (req, res) => {
+   
+    const dataUser = req.body; // {name,email,password ,new_email}
+    const response = await user.updateUser(dataUser);
+    res.status(202).json({
+        "message": `Actualizado: ${dataUser.email}`
+    });
 }
 
-const editProfile = (req, res) => {
-    res.status(202).send("Has mandado un PUT de editar perfil usuario y admin!");
-}
 
-const deleteProfile = (req, res) => {
-    res.status(202).send("Has mandado un DELETE para eliminar un user!");
+
+const deleteProfile = async (req, res) => {
+    
+    const dataUser = req.body; // {email}
+    const response = await user.deleteUser(dataUser);
+    res.status(200).json({
+        "message": `Borrado ${dataUser.email}`
+    });
 }
 
 const userLogin = (req, res) => {
-    res.status(200).send("Has mandado un POST de login!");
+    res.status(200).send("Has mandado un POST de logi2n!");
 }
 
 const userLogout = (req, res) => {
@@ -66,6 +93,15 @@ const editEvent = async (req, res) => {
     })
 }
 
+
+const addFavorite = async (req, res) => {
+
+    const newFav = req.body; // {title,date,location,price,image,info}
+    const response = await user.createFav(newFav);
+    res.status(201).json({
+        "message": `Creado: ${newFav.title}`
+    });
+}
 const deleteEvent = async (req, res) => {
 
     const { title } = req.body
@@ -81,12 +117,22 @@ const deleteEvent = async (req, res) => {
 }
 
 
-const addFavorite = (req, res) => {
-    res.status(200).send("Has mandado un POST de guardar como favorito!");
-}
 
-const deleteFavorite = (req, res) => {
-    res.status(202).send("Has mandado un DELETE de favoritos!");
+
+const deleteFavorite = async (req, res) => {
+    const dataFav = req.body; // {title}
+    const response = await user.deleteFav(dataFav);
+    res.status(200).json({
+        "message": `Borrado ${dataFav.title}`
+    });
+}
+const editFavorite = async (req, res) => {
+   
+    const dataFav = req.body; // {title,date,location,price,image,info, new_title}
+    const response = await user.updateFav(dataFav);
+    res.status(202).json({
+        "message": `Actualizado: ${dataFav.title}`
+    });
 }
 
 const recoverPass = (req, res) => {
@@ -114,7 +160,9 @@ const searchMongo = async (req,res) => {
 }
 
 module.exports = {
+        
     registerProfile,
+    getAllUsers,
     editProfile,
     deleteProfile,
     userLogin,
@@ -125,7 +173,11 @@ module.exports = {
     deleteEvent,
     addFavorite,
     deleteFavorite,
+    editFavorite,
     recoverPass,
+
     restorePass,
-    searchMongo
+    searchMongo,
+    getEvents
+
 }

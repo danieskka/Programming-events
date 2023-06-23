@@ -1,3 +1,4 @@
+
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -38,3 +39,4 @@ if (document.getElementById('searchButton')) {
     }
   });
 }
+

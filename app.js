@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan(':method :host :status :param[id] - :response-time ms :body'));
 app.use(express.static('public'));
 
+
 // Endpoints Web
 app.use('/',eventsRoutes);
 

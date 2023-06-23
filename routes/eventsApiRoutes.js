@@ -31,10 +31,6 @@ eventsApiRouter.delete('/favorites', eventsApiController.deleteFavorite);
 eventsApiRouter.get('/recoverpassword', eventsApiController.recoverPass);
 eventsApiRouter.get('/restorepassword', eventsApiController.restorePass);
 
-// RUTAS BBDD MONGODB
-// eventsApiRouter.get('/buscar', [
-//     eventsApiController.searchMongo,
-//     eventsApiController.getScrapEvents
-// ]);
+
 
 module.exports = eventsApiRouter
