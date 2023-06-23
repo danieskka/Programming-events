@@ -5,7 +5,10 @@ const extracteventData = async (url,browser) => {
     try{
         const eventData = {}
         const page = await browser.newPage()
-        await page.goto(url)
+        await page.goto(url)       
+          
+        eventData['name'] = await page.$eval('.event-title', name => name.innerText)
+       
         await  new Promise(r => setTimeout(r, 4000));
         eventData['name'] = await page.$eval('.event-title', name => name.innerText)       
         eventData['price'] = await page.$eval('.Stack_root__1ksk7 > p:nth-of-type(3)', priceElement => priceElement.innerText);
@@ -21,7 +24,7 @@ const extracteventData = async (url,browser) => {
         eventData['description'] = eventData['description'].replace(/\n/g, ' ');
         
         
-        
+   
         return eventData
     }
     catch(err){
@@ -34,7 +37,7 @@ const scrap = async (url) => {
     try {
         const scrapedData = []
         console.log("Opening the browser......");
-        const browser = await puppeteer.launch({headless:true})
+        const browser = await puppeteer.launch({headless:false})
         
         const page = await browser.newPage();
         await page.goto(url);
@@ -43,6 +46,9 @@ const scrap = async (url) => {
         const urls = await tmpurls.filter((link,index) =>{ return tmpurls.indexOf(link) === index})
         console.log("url capuradas",urls)
         const urls2 = urls.slice(0, 15);
+
+        // Me quedo con los 20 primeros productos, porque sino es muy largo
+  
 
         console.log(`${urls2.length} links encontrados`);
         
@@ -65,4 +71,5 @@ const scrap = async (url) => {
     }
 }
 exports.scrap = scrap;
-scrap("https://www.eventbrite.es/d/spain/development/").then(data =>console.log('Data', data))
+/********** DESCOMENTAR PARA PROBAR *********/
+//  scrap("https://www.eventbrite.es/d/spain--madrid/development/").then(data =>console.log(data))

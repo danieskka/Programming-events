@@ -9,9 +9,10 @@ const fs = require('fs');
 //       const jsonData = fs.readFileSync('./scrapedData.json', 'utf8');
 //       const data = JSON.parse(jsonData);
   
-//       const collection = mongoose.connection.collection('EventBrite');
-//       const result = await collection.insertMany(data);
-//       console.log(`${result.insertedCount} documentos insertados.`);
+
+      const collection = mongoose.connection.collection('eventest');
+      const result = await collection.insertMany(data);
+      console.log(`${result.insertedCount} documentos insertados.`);
   
 //       mongoose.connection.close();
 //     } catch (err) {

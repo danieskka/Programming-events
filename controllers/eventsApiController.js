@@ -1,3 +1,5 @@
+const Brite = require('../models/eventBrite');
+
 const Event = require('../models/event')
 
 const registerProfile = (req, res) => {
@@ -19,6 +21,10 @@ const userLogin = (req, res) => {
 const userLogout = (req, res) => {
     res.status(200).send("Has mandado un POST de salir!");
 }
+
+
+const createEvent = (req, res) => {
+    res.status(200).send("Has mandado un POST de crear un evento!");
 
 const getEvents = async (req, res) => {
 
@@ -47,6 +53,7 @@ const createEvent = async (req, res) => {
         message: `Evento creado`,
         event: req.body
     })
+
 }
 
 const editEvent = async (req, res) => {
@@ -93,18 +100,34 @@ const restorePass = (req, res) => {
     res.render("restorepassword");
 }
 
+// Controller BBDD MongoDB
+const searchMongo = async (req,res) => {
+    try {
+        let events = await Brite.find({});
+        console.log(events);
+        res.status(200).json(events);
+    }
+    catch (error) {
+        console.log(`ERROR: ${error.stack}`);
+        res.status(400).json({
+            msj: 'Ups algo fue mal, ha ocurrido un error'
+        });
+        
+    }
+}
+
 module.exports = {
     registerProfile,
     editProfile,
     deleteProfile,
     userLogin,
     userLogout,
-    getEvents,
     createEvent,
     editEvent,
     deleteEvent,
     addFavorite,
     deleteFavorite,
     recoverPass,
-    restorePass
+    restorePass,
+    searchMongo
 }

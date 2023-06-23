@@ -4,10 +4,18 @@ html(lang="en")
         include ./header
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Home 
+        link(rel='stylesheet', type='text/css', href='./style.css')
+        title Eventos de Programacion
     body  
-        h1 Hola esto es la pagina de Home
+        h2 Hola Bienvenido al buscador de eventos de programación.
         main
-            section.main-container
-
+            section.search_container
+                form.search_card
+                    label Buscador de Eventos para Desarrolladores
+                        input(type="text" id="searchInput")
+                        input(type="submit" id="searchButton")
+            section#results
+        script(type="module", src="./script.js")
         include ./footer
+
+        //- (action="/api/buscar", method="get")
