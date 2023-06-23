@@ -1,5 +1,7 @@
 const express = require('express');
 
+require('./utils/mongo_db');
+
 const morgan = require('./utils/morgan')
 const error404 = require('./middlewares/error404');
 
@@ -22,9 +24,7 @@ app.use(express.static('public'));
 app.use('/',eventsRoutes);
 
 // Endpoints API
-
 app.use('/api/',eventsApiRoutes);
-
 
 // Errores
 app.use(error404);
