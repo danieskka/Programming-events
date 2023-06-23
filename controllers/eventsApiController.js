@@ -39,7 +39,7 @@ const deleteProfile = async (req, res) => {
 }
 
 const userLogin = (req, res) => {
-    res.status(200).send("Has mandado un POST de login!");
+    res.status(200).send("Has mandado un POST de logi2n!");
 }
 
 const userLogout = (req, res) => {
@@ -80,7 +80,7 @@ const deleteFavorite = async (req, res) => {
 }
 const editFavorite = async (req, res) => {
    
-    const dataFav = req.body; // {title,date,location,price,image,info}
+    const dataFav = req.body; // {title,date,location,price,image,info, new_title}
     const response = await user.updateFav(dataFav);
     res.status(202).json({
         "message": `Actualizado: ${dataFav.title}`
