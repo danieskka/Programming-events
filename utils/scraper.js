@@ -11,19 +11,16 @@ const extracteventData = async (url,browser) => {
        
         await  new Promise(r => setTimeout(r, 4000));
         eventData['name'] = await page.$eval('.event-title', name => name.innerText)       
-        eventData['price'] = await page.$eval('.Stack_root__1ksk7 > p:nth-of-type(3)', priceElement => priceElement.innerText);
+        // eventData['price'] = await page.$eval('.Stack_root__1ksk7 > p:nth-of-type(3)', priceElement => priceElement.innerText);
         eventData['image'] = await page.$eval('img', img => img.src)
         eventData['info'] = await page.$eval(".event-details__section", info => info.innerText)
         eventData['description'] = await page.$eval('.event-details__main-inner', description=>description.innerText.slice(0,200) + '...')
 
-       
         
         eventData['name'] = eventData['name'].replace(/\n/g, ' ');
-        eventData['price'] = eventData['price'].replace(/\n/g, ' ' );
+        // eventData['price'] = eventData['price'].replace(/\n/g, ' ' );
         eventData['info'] = eventData['info'].replace(/\n/g, ' ');
         eventData['description'] = eventData['description'].replace(/\n/g, ' ');
-        
-        
    
         return eventData
     }
@@ -72,4 +69,4 @@ const scrap = async (url) => {
 }
 exports.scrap = scrap;
 /********** DESCOMENTAR PARA PROBAR *********/
-//  scrap("https://www.eventbrite.es/d/spain--madrid/development/").then(data =>console.log(data))
+// scrap("https://www.eventbrite.es/d/spain--madrid/development/").then(data =>console.log(data))

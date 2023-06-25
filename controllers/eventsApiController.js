@@ -1,8 +1,7 @@
-
 const user = require('../models/queries'); // Importar el modelo de la BBDD
 const Brite = require('../models/eventBrite');
-
-const Event = require('../models/event')
+const Event = require('../models/event');
+const scraper = require ('../utils/scraper.js')
 
 const registerProfile = async (req, res) => {
     const newUser = req.body; // {name,email,password}
@@ -26,7 +25,7 @@ const editProfile = async (req, res) => {
     const dataUser = req.body; // {name,email,password ,new_email}
     const response = await user.updateUser(dataUser);
     res.status(202).json({
-        "message": `Actualizado: ${dataUser.email}`
+        "message": `Actualizado: ${response.email}`
     });
 }
 
@@ -37,7 +36,7 @@ const deleteProfile = async (req, res) => {
     const dataUser = req.body; // {email}
     const response = await user.deleteUser(dataUser);
     res.status(200).json({
-        "message": `Borrado ${dataUser.email}`
+        "message": `Borrado ${response.email}`
     });
 }
 
@@ -116,14 +115,11 @@ const deleteEvent = async (req, res) => {
     })
 }
 
-
-
-
 const deleteFavorite = async (req, res) => {
     const dataFav = req.body; // {title}
     const response = await user.deleteFav(dataFav);
     res.status(200).json({
-        "message": `Borrado ${dataFav.title}`
+        "message": `Borrado ${response.title}`
     });
 }
 const editFavorite = async (req, res) => {
@@ -131,7 +127,7 @@ const editFavorite = async (req, res) => {
     const dataFav = req.body; // {title,date,location,price,image,info, new_title}
     const response = await user.updateFav(dataFav);
     res.status(202).json({
-        "message": `Actualizado: ${dataFav.title}`
+        "message": `Actualizado: ${response.title}`
     });
 }
 
@@ -144,18 +140,21 @@ const restorePass = (req, res) => {
 }
 
 // Controller BBDD MongoDB
-const searchMongo = async (req,res) => {
+const searchAll = async (req,res) => {
     try {
         let events = await Brite.find({});
         console.log(events);
-        res.status(200).json(events);
+
+        const scrapedData = await scraper.scrap('https://www.eventbrite.es/d/spain--madrid/development/');
+
+        res.status(200).json(scrapedData);
+
     }
     catch (error) {
         console.log(`ERROR: ${error.stack}`);
         res.status(400).json({
             msj: 'Ups algo fue mal, ha ocurrido un error'
         });
-        
     }
 }
 
@@ -175,9 +174,8 @@ module.exports = {
     deleteFavorite,
     editFavorite,
     recoverPass,
-
     restorePass,
-    searchMongo,
+    searchAll,
     getEvents
 
 }

@@ -1,7 +1,6 @@
 const express = require('express');
 const eventsApiRouter = express.Router();
 const eventsApiController = require('../controllers/eventsApiController');
-const scrapingController = require('../controllers/scrappingController')
 
 // Rutas /user
 eventsApiRouter.post('/user', eventsApiController.registerProfile);
@@ -13,10 +12,7 @@ eventsApiRouter.post('/login', eventsApiController.userLogin);
 eventsApiRouter.post('/logout', eventsApiController.userLogout);
 
 // Ruta /search
-eventsApiRouter.get('/search', [
-    eventsApiController.searchMongo,
-    scrapingController.getEvents
-]);
+eventsApiRouter.get('/search', eventsApiController.searchAll);
 
 // Rutas /ads
 eventsApiRouter.post('/ads', eventsApiController.createEvent);
