@@ -1,4 +1,3 @@
-
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -40,3 +39,19 @@ if (document.getElementById('searchButton')) {
   });
 }
 
+
+//MENU HAMBURGUESA
+const toggleButton = document.getElementById('menu')
+const navWrapper = document.getElementById('nav')
+
+toggleButton.addEventListener('click',() => {
+  toggleButton.classList.toggle('close')
+  navWrapper.classList.toggle('show')
+})
+
+navWrapper.addEventListener('click',e => {
+  if(e.target.id === 'nav'){
+    navWrapper.classList.remove('show')
+    toggleButton.classList.remove('close')
+  }
+})

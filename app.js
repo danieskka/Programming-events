@@ -2,7 +2,7 @@ const express = require('express');
 
 require('./utils/mongo_db');
 
-const morgan = require('./utils/morgan')
+// const morgan = require('./utils/morgan')
 const error404 = require('./middlewares/error404');
 
 const app = express();
@@ -16,7 +16,7 @@ app.set('views', './views');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan(':method :host :status :param[id] - :response-time ms :body'));
+// app.use(morgan(':method :host :status :param[id] - :response-time ms :body'));
 app.use(express.static('public'));
 
 
