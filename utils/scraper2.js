@@ -57,4 +57,4 @@ const scrap = async (url) => {
 }
 exports.scrap = scrap;
 
- scrap("https://infosec-conferences.com/country/spain/").then(data =>console.log(data))
+scrap("https://infosec-conferences.com/country/spain/").then(data =>console.log(data))
