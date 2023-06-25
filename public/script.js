@@ -91,7 +91,7 @@ navWrapper.addEventListener('click',e => {
 //POST ADMIN
 const form = document.getElementById('event-form');
 
-form.addEventListener('submit', async (event) => {
+form.addEventListener('submit', async function(event) {
   event.preventDefault();
   console.log('Formulario enviado'); 
 
@@ -100,25 +100,26 @@ form.addEventListener('submit', async (event) => {
   const info = document.getElementById('info').value;
   const description = document.getElementById('description').value;
 
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('image', image);
-  formData.append('info', info);
-  formData.append('description', description);
 
   try {
-    const event = new Event({
-      name: formData.get('name'),
-      image: formData.get('image'),
-      info: formData.get('info'),
-      description: formData.get('description'),
-    });
+    fetch('/api/dashboard', {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        image,
+        info,
+        description
+      })
+    })
+      .then(res=>res.json())
+      .then(data=>{
+        document.getElementById("message").innerHTML = "Producto guardado con ID: "+data.id;
+        console.log(data)
+    })
 
     await event.save();
-
-    console.log('Evento guardado en MongoDB');
   } catch (error) {
-    console.error('Error al guardar el evento en MongoDB:', error);
+    console.error(error);
   }
 });
 
