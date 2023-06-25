@@ -1,3 +1,8 @@
+const Event = require('../models/eventBrite');
+const mongoose = require('mongoose');
+require('../utils/mongo_db');
+
+
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -68,7 +73,7 @@ if (document.getElementById('searchButton')) {
 
 
 //MENU HAMBURGUESA
-const toggleButton = document.getElementById('menu')
+const toggleButton = document.getElementById('menu');
 const navWrapper = document.getElementById('nav')
 
 toggleButton.addEventListener('click',() => {
@@ -82,3 +87,44 @@ navWrapper.addEventListener('click',e => {
     toggleButton.classList.remove('close')
   }
 })
+
+//POST ADMIN
+const form = document.getElementById('event-form');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  console.log('Formulario enviado'); 
+
+  const name = document.getElementById('name').value;
+  const image = document.getElementById('image').files[0];
+  const info = document.getElementById('info').value;
+  const description = document.getElementById('description').value;
+
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('image', image);
+  formData.append('info', info);
+  formData.append('description', description);
+
+  try {
+    const event = new Event({
+      name: formData.get('name'),
+      image: formData.get('image'),
+      info: formData.get('info'),
+      description: formData.get('description'),
+    });
+
+    await event.save();
+
+    console.log('Evento guardado en MongoDB');
+  } catch (error) {
+    console.error('Error al guardar el evento en MongoDB:', error);
+  }
+});
+
+
+
+
+
+
+

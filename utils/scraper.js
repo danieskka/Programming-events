@@ -15,7 +15,8 @@ const extracteventData = async (url,browser) => {
         eventData['image'] = await page.$eval('img', img => img.src)
         eventData['info'] = await page.$eval(".event-details__section", info => info.innerText)
         eventData['description'] = await page.$eval('.event-details__main-inner', description=>description.innerText.slice(0,200) + '...')
-
+        eventData['links'] = await page.$$eval('.Stack_root__1ksk7:first-child', links => links.href)
+        // (a => a.href))
         
         eventData['name'] = eventData['name'].replace(/\n/g, ' ');
         // eventData['price'] = eventData['price'].replace(/\n/g, ' ' );
@@ -34,7 +35,7 @@ const scrap = async (url) => {
     try {
         const scrapedData = []
         console.log("Opening the browser......");
-        const browser = await puppeteer.launch({headless:false})
+        const browser = await puppeteer.launch({headless:true})
         
         const page = await browser.newPage();
         await page.goto(url);
