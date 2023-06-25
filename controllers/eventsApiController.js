@@ -175,7 +175,6 @@ module.exports = {
     deleteFavorite,
     editFavorite,
     recoverPass,
-
     restorePass,
     searchMongo,
     getEvents
