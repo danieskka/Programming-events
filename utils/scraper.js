@@ -42,7 +42,7 @@ const scrap = async (url) => {
         const tmpurls = await page.$$eval('.Stack_root__1ksk7 a', res => res.map(a=>a.href))
         const urls = await tmpurls.filter((link,index) =>{ return tmpurls.indexOf(link) === index})
         console.log("url capuradas",urls)
-        const urls2 = urls.slice(0, 15);
+        const urls2 = urls.slice(0, 5);
 
         // Me quedo con los 20 primeros productos, porque sino es muy largo
   

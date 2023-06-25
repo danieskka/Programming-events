@@ -142,12 +142,23 @@ const restorePass = (req, res) => {
 // Controller BBDD MongoDB
 const searchAll = async (req,res) => {
     try {
-        let events = await Brite.find({});
+
+        const search = req.query.search;
+        const location = req.query.location;
+
+        const url = `https://www.eventbrite.es/d/${location}/${search}/`;
+
+        let events = await Brite.find({ name: { $regex: search, $options: 'i'} });
         console.log(events);
 
-        const scrapedData = await scraper.scrap('https://www.eventbrite.es/d/spain--madrid/development/');
+        const scrapedData = await scraper.scrap(url);
 
-        res.status(200).json(scrapedData);
+        const allData = {
+            mongoDB: events,
+            scrapedData: scrapedData
+        }
+
+        res.status(200).json(allData);
 
     }
     catch (error) {
