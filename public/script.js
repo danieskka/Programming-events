@@ -41,6 +41,11 @@ if (document.getElementById('searchButton')) {
       // Pinta en el DOM desde el Scraping
       if (Array.isArray(data.scrapedData) && data.scrapedData.length > 0) {
         data.scrapedData.forEach(result => {
+
+          const alreadyExists = data.mongoDB.find(item => item.name === result.name);
+
+          if (!alreadyExists) {
+
           const card = document.createElement('div');
           card.classList.add('card');
       
@@ -58,6 +63,7 @@ if (document.getElementById('searchButton')) {
           card.appendChild(description);
       
           resultsContainer.appendChild(card);
+        }
         });
       }
       

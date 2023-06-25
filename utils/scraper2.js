@@ -36,7 +36,7 @@ const scrap = async (url) => {
         const urls = await tmpurls.filter((link,index) =>{ return tmpurls.indexOf(link) === index})
         console.log("url capuradas",urls)
        
-        const urls2 = urls.slice(0, 21);
+        const urls2 = urls.slice(0, 5);
         console.log(`${urls2.length} links encontrados`);
         for(eventLink in urls2){
             const product = await extracteventData(urls2[eventLink],browser)

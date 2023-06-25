@@ -155,7 +155,7 @@ const searchAll = async (req,res) => {
 
         const allData = {
             mongoDB: events,
-            scrapedData: scrapedData
+            scrapedData: scrapedData,
         }
 
         res.status(200).json(allData);
