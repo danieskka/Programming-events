@@ -13,7 +13,8 @@ html(lang="en")
             section.search_container
                 form.search_card
                     label Buscador de Eventos para Desarrolladores
-                        input(type="text" id="searchInput")
+                        input(type="text" id="searchInput" placeholder="Buscar por palabra clave")
+                        input(type="text" id="locationInput" placeholder="Buscar por ubicación")
                         input(type="submit" id="searchButton")
             section#results
         script(type="module", src="./script.js")

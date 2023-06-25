@@ -36,6 +36,6 @@ const objectSchema = {
 
 const briteSchema = new mongoose.Schema(objectSchema)
 
-const Brite = mongoose.model('eventest', briteSchema);
+const Brite = mongoose.model('events', briteSchema);
 
 module.exports = Brite;
