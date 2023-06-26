@@ -1,5 +1,4 @@
-const controller = require('./eventAdminController')
-const fetch = require('node-fetch');
+
 
 const getHome = (req, res) => {
     res.render("home");
@@ -26,13 +25,14 @@ const users = (req, res) => {
 }
 
 const dashboard = (req, res) => {
-    try{
-        let dash = await fetch('/api/dashboard');
-        let data = dash.createEvent
-    }
-    catch(error){
-        console.log(error)
-    }
+    res.render("dashboard")
+    // try{
+    //     let dash = await fetch('/api/dashboard');
+    //     let data = dash.createEvent
+    // }
+    // catch(error){
+    //     console.log(error)
+    // }
 }
 
 module.exports = {

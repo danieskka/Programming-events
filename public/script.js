@@ -1,8 +1,3 @@
-const Event = require('../models/eventBrite');
-const mongoose = require('mongoose');
-require('../utils/mongo_db');
-
-
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -96,35 +91,129 @@ form.addEventListener('submit', async function(event) {
   console.log('Formulario enviado'); 
 
   const name = document.getElementById('name').value;
-  const image = document.getElementById('image').files[0];
+  const image = document.getElementById('image').value;
   const info = document.getElementById('info').value;
   const description = document.getElementById('description').value;
 
+  const eventData = {
+    name,
+    image,
+    info,
+    description
+  };
 
   try {
-    fetch('/api/dashboard', {
+    const response = await fetch('/api/ads', {
       method: 'POST',
-      body: JSON.stringify({
-        name,
-        image,
-        info,
-        description
-      })
-    })
-      .then(res=>res.json())
-      .then(data=>{
-        document.getElementById("message").innerHTML = "Producto guardado con ID: "+data.id;
-        console.log(data)
-    })
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(eventData)
+    });
 
-    await event.save();
+    if (response.ok) {
+      const data = await response.json();
+      document.getElementById("message").innerHTML = "Evento creado" 
+      console.log(data);
+      const eventsContainer = document.querySelector('.event-list-container')
+      const newEvent = `
+          <p class='data'>Evento: ${eventData.name}</p>
+          <p class='data'>Imagen: ${eventData.image}</p>
+          <p class='data'>Localización: ${eventData.info}</p>
+          <p class='data'>Descripcion: ${eventData.description}</p>
+          <button class='detele'>Eliminar</button>
+          <button class='edit'>Editar</button>`
+
+      eventsContainer.innerHTML += newEvent;    
+
+      // const deleteButton = document.createElement('button');
+      // deleteButton.textContent = 'Eliminar';
+      // deleteButton.classList.add('delete');
+      
+      // const editButton = document.createElement('button');
+      // editButton.textContent = 'Editar';
+      // editButton.classList.add('edit');    
+
+      
+      // newEvent.appendChild(deleteButton);
+      // newEvent.appendChild(editButton);
+    } else {
+      throw new Error('Error al enviar el formulario');
+    }
   } catch (error) {
     console.error(error);
   }
 });
 
+//PUT ADMIN
+const updateButton = document.querySelectorAll('.edit');
+updateButton.forEach(updateButton => {
+  updateButton.addEventListener('click', async function() {
+    const updatedName = document.getElementById('name').value;
+    const updatedImage = document.getElementById('image').value;
+    const updatedInfo = document.getElementById('info').value;
+    const updatedDescription = document.getElementById('description').value;
+  
+    const updatedEventData = {
+      name: updatedName,
+      image: updatedImage,
+      info: updatedInfo,
+      description: updatedDescription
+    };
+  
+    try {
+      const response = await fetch('/api/ads', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedEventData)
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        eventInfo.textContent = `
+          Evento: ${data.updatedEventData.name},
+          Imagen: ${data.updatedEventData.image},
+          Localización: ${data.updatedEventData.info},
+          Descripción: ${data.updatedEventData.description}`;
+  
+        
+      } else {
+        throw new Error('Error al actualizar el evento');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  })
+})
 
+//DELETE ADMIN
+const deleteButtons = document.querySelectorAll('.delete');
+deleteButtons.forEach(deleteButton => {
+  deleteButton.addEventListener('click', async function() {
+    const eventElement = deleteButton.parentElement;
+    const events = eventElement.getElementsByTagName('p');
 
+    const confirmDelete = confirm(`Vas a eliminar:  ${eventName}, ¿Segur0?`);
+
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`/api/ads/${eventName}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          eventElement.remove();
+        } else {
+          throw new Error('Error al eliminar el evento');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  });
+});
 
 
 

@@ -1,6 +1,5 @@
 const user = require('../models/queries'); // Importar el modelo de la BBDD
 const Brite = require('../models/eventBrite');
-const Event = require('../models/event');
 const scraper = require ('../utils/scraper.js')
 
 const registerProfile = async (req, res) => {
@@ -51,40 +50,43 @@ const userLogout = (req, res) => {
 
 const getEvents = async (req, res) => {
 
-    const event = await Event
+    const event = await Brite
         .find()
-        .populate('title price info image -_id')
-        .select('title price info image -_id');
+        .populate('name info description image')
+        .select('name info description image');
 
     res.status(200).json(event)
 }
 
 const createEvent = async (req, res) => {
 
-    const { title, price, info, image, id } = req.body
+    const { name, info, description, image } = req.body
 
-    const event = new Event ({
-        id,
-        title,
-        price,
-        info,
-        image
-    });
+    // const event = new Brite ({
+    //     id,
+    //     name,
+    //     info,
+    //     image,
+    //     description
+    // });
 
-    const result = await event.save();
-    res.status(201).json({
-        message: `Evento creado`,
-        event: req.body
-    })
+    const event2 = await Brite.create(req.body)
+    res.status(201).json(event2);
+
+    // const result = await event.save();
+    // res.status(201).json({
+    //     message: `Evento creado`,
+    //     event: req.body
+    // })
 
 }
 
 const editEvent = async (req, res) => {
-    const {  id, title, price, info, image, new_title} = req.body;
+    const { name, image, info, description, new_name, new_image, new_info, new_description} = req.body;
 
-    const event = await Event
-    .findOneAndUpdate({title: title}, {title: new_title,  id, title, price, info, image}, {returnOriginal: false})
-    .select('-_id -__v')
+    const event = await Brite
+    .findOneAndUpdate({name: name}, {name: new_name, image: new_image, info: new_info, description: new_description, name, image, info, description}, {returnOriginal: false})
+    .select('-__v')
 
     res.status(200).json({
         message: `Evento actualizado`,
@@ -95,7 +97,7 @@ const editEvent = async (req, res) => {
 
 const addFavorite = async (req, res) => {
 
-    const newFav = req.body; // {title,date,location,price,image,info}
+    const newFav = req.body; // {title,date,location,image,info}
     const response = await user.createFav(newFav);
     res.status(201).json({
         "message": `Creado: ${newFav.title}`
@@ -103,11 +105,11 @@ const addFavorite = async (req, res) => {
 }
 const deleteEvent = async (req, res) => {
 
-    const { title } = req.body
+    const { name } = req.body
 
-    const event = await Event
-    .findOneAndDelete({title: title})
-    .select('-_id -__v')
+    const event = await Brite
+    .findOneAndDelete({name: name})
+    .select(' -__v')
 
     res.status(200).json({
         message: `Evento Borrado`,
