@@ -12,7 +12,7 @@ eventsApiRouter.post('/login', eventsApiController.userLogin);
 eventsApiRouter.post('/logout', eventsApiController.userLogout);
 
 // Ruta /search
-//eventsApiRouter.get('/search', eventsApiController.searchAll);
+eventsApiRouter.get('/search', eventsApiController.searchAll);
 
 // Rutas /ads
 eventsApiRouter.post('/ads', eventsApiController.createEvent);
