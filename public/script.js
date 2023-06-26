@@ -1,4 +1,6 @@
-
+const Event = require('../models/eventBrite');
+const mongoose = require('mongoose');
+require('../utils/mongo_db');
 
 
 if (document.getElementById('searchButton')) {
@@ -68,125 +70,61 @@ if (document.getElementById('searchButton')) {
     }
   });
 }
-//Funcion singup
-if (document.getElementById('signupButton')) {
-  document.getElementById('signupButton').addEventListener('click', (event) => {
-    event.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
 
-    const userData = {
-      name: name,
-      email: email,
-      password: password
-    };
+//MENU HAMBURGUESA
+const toggleButton = document.getElementById('menu');
+const navWrapper = document.getElementById('nav')
 
-    fetch('api/user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData)
-    })
-      .then(response => {
-        if (response.ok) {
-          console.log('Datos enviados correctamente');
-          
-        } else {
-          console.error('Error al enviar los datos');
-          
-        }
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-        
-      });
-  });
-}
-//Funcion login
-if (document.getElementById('loginButton')) {
-  document.getElementById('loginButton').addEventListener('click', (event) => {
-    event.preventDefault();
+toggleButton.addEventListener('click',() => {
+  toggleButton.classList.toggle('close')
+  navWrapper.classList.toggle('show')
+})
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+navWrapper.addEventListener('click',e => {
+  if(e.target.id === 'nav'){
+    navWrapper.classList.remove('show')
+    toggleButton.classList.remove('close')
+  }
+})
 
-    const userData = {
-      email: email,
-      password: password
-    };
+//POST ADMIN
+const form = document.getElementById('event-form');
 
-    fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData)
-    })
-      .then(response => {
-        if (response.ok) {
-          // Crea la cookie
-          //const cookieValue = JSON.stringify(UserData);
-          //const expirationDate = new Date();
-          //expirationDate.setTime(expirationDate.getTime() + (60 * 60 * 1000)); //Duracion de la cookie(milisegundos)
-          //document.cookie = `cookieLogin=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/`;//Habilitada para toda la web
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  console.log('Formulario enviado'); 
 
-          console.log('Estado actualizado');
-        } else {
-          console.error('Error');
-        }
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-      });
-  });
-}
+  const name = document.getElementById('name').value;
+  const image = document.getElementById('image').files[0];
+  const info = document.getElementById('info').value;
+  const description = document.getElementById('description').value;
 
-if (document.getElementById('logoutButton')) {
-  document.getElementById('logoutButton').addEventListener('click', (event) => {
-    event.preventDefault();
-    
-    // Obtener el valor de la cookie 'cookieLogin'
-    const cookieValue = getCookieValue('cookieLogin');
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('image', image);
+  formData.append('info', info);
+  formData.append('description', description);
 
-    //Convertimos a JSON
-    const data = JSON.parse(cookieValue);
-    const email = data.email;
-    const password = data.password;
+  try {
+    const event = new Event({
+      name: formData.get('name'),
+      image: formData.get('image'),
+      info: formData.get('info'),
+      description: formData.get('description'),
+    });
 
-    const postData = {
-      email: email,
-      password: password
-    };
+    await event.save();
 
-    fetch('/api/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(postData)
-    })
-      .then(response => {
-        if (response.ok) {
-          console.log('Logout perita ');
-          // Elimina la cookie
-          document.cookie = 'cookieLogin=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;';
-        } else {
-          console.error('Error en el logout');
-        }
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-      });
-  });
-}
+    console.log('Evento guardado en MongoDB');
+  } catch (error) {
+    console.error('Error al guardar el evento en MongoDB:', error);
+  }
+});
 
-/*
-if (document.getElementById('logoutButton')) {
-  document.getElementById('logoutButton').addEventListener('click', (event) => {
-    event.preventDefault();
-    console.log('llega?');
-    const cookieValue = getCookieValue('cookieLogin');
-*/
+
+
+
+
+
+

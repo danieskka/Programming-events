@@ -1,7 +1,7 @@
 const user = require('../models/queries'); // Importar el modelo de la BBDD
 const Brite = require('../models/eventBrite');
-
-const Event = require('../models/event')
+const Event = require('../models/event');
+const scraper = require ('../utils/scraper.js')
 
 const registerProfile = async (req, res) => {
     const newUser = req.body; // {name,email,password}
@@ -25,7 +25,7 @@ const editProfile = async (req, res) => {
     const dataUser = req.body; // {name,email,password ,new_email}
     const response = await user.updateUser(dataUser);
     res.status(202).json({
-        "message": `Actualizado: ${dataUser.email}`
+        "message": `Actualizado: ${response.email}`
     });
 }
 
@@ -36,41 +36,19 @@ const deleteProfile = async (req, res) => {
     const dataUser = req.body; // {email}
     const response = await user.deleteUser(dataUser);
     res.status(200).json({
-        "message": `Borrado ${dataUser.email}`
+        "message": `Borrado ${response.email}`
     });
 }
 
-const userLogin = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const result = await user.loginUser(email, password);
+const userLogin = (req, res) => {
+    res.status(200).send("Has mandado un POST de logi2n!");
+}
 
-      if (result.length > 0) {
-        res.status(200).json({ message: 'Login actualizado' });
-      } else {
-        res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-    } catch (err) {
-      console.error('Error', err);
-      res.status(500).json({ message: 'Error en el servidor' });
-    }
-  }
+const userLogout = (req, res) => {
+    res.status(200).send("Has mandado un POST de salir!");
+}
 
-const userLogout = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const result = await user.logoutUser(email, password);
 
-      if (result.length > 0) {
-        res.status(200).json({ message: 'Login actualizado' });
-      } else {
-        res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-    } catch (err) {
-      console.error('Error', err);
-      res.status(500).json({ message: 'Error en el servidor' });
-    }
-  }
 const getEvents = async (req, res) => {
 
     const event = await Event
@@ -113,20 +91,11 @@ const editEvent = async (req, res) => {
         updated_event: event
     })
 }
-const getFavorites = async (req, res) => {
-    let fav;
-    if (req.query.email) {
-        fav = await fav.getFavsByEmail(req.query.email);
-    }
-    else {
-        fav = await fav.getFavs();
-    }
-    res.status(200).json(fav); 
-}
+
 
 const addFavorite = async (req, res) => {
 
-    const newFav = req.body; // {title,date,location,price,image,info,email}
+    const newFav = req.body; // {title,date,location,price,image,info}
     const response = await user.createFav(newFav);
     res.status(201).json({
         "message": `Creado: ${newFav.title}`
@@ -146,14 +115,11 @@ const deleteEvent = async (req, res) => {
     })
 }
 
-
-
-
 const deleteFavorite = async (req, res) => {
     const dataFav = req.body; // {title}
     const response = await user.deleteFav(dataFav);
     res.status(200).json({
-        "message": `Borrado ${dataFav.title}`
+        "message": `Borrado ${response.title}`
     });
 }
 const editFavorite = async (req, res) => {
@@ -161,10 +127,9 @@ const editFavorite = async (req, res) => {
     const dataFav = req.body; // {title,date,location,price,image,info, new_title}
     const response = await user.updateFav(dataFav);
     res.status(202).json({
-        "message": `Actualizado: ${dataFav.title}`
+        "message": `Actualizado: ${response.title}`
     });
 }
-
 
 const recoverPass = (req, res) => {
     res.render("recoverpassword");
@@ -175,18 +140,32 @@ const restorePass = (req, res) => {
 }
 
 // Controller BBDD MongoDB
-const searchMongo = async (req,res) => {
+const searchAll = async (req,res) => {
     try {
-        let events = await Brite.find({});
+
+        const search = req.query.search;
+        const location = req.query.location;
+
+        const url = `https://www.eventbrite.es/d/${location}/${search}/`;
+
+        let events = await Brite.find({ name: { $regex: search, $options: 'i'} });
         console.log(events);
-        res.status(200).json(events);
+
+        const scrapedData = await scraper.scrap(url);
+
+        const allData = {
+            mongoDB: events,
+            scrapedData: scrapedData
+        }
+
+        res.status(200).json(allData);
+
     }
     catch (error) {
         console.log(`ERROR: ${error.stack}`);
         res.status(400).json({
             msj: 'Ups algo fue mal, ha ocurrido un error'
         });
-        
     }
 }
 
@@ -207,8 +186,7 @@ module.exports = {
     editFavorite,
     recoverPass,
     restorePass,
-    searchMongo,
-    getEvents,
-    getFavorites
+    searchAll,
+    getEvents
 
 }
