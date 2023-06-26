@@ -4,8 +4,21 @@ html
     link(rel='stylesheet', type='text/css', href='./style.css')
     title Eventos de Programacion
   body
-    header
-      h3 Eventos de Tecnologia para programadores
-      nav
-        form
-          button(type='submit') Logout
+
+    header.main-header(href='/')
+        a.main-logo LOGO
+        nav#nav.main-nav
+            section.nav-links 
+                  a.link-item(href='/login') Iniciar Sesión
+                  a.link-item(href='/signup') Registrarse
+                  a.link-item(href='/dashboard') Perfil
+                  a.link-item(href='/contacto') Contacto
+        section#menu.menu-toggle
+                span
+                span
+                span
+                
+
+
+    script(type="module", src="script.js")             
+

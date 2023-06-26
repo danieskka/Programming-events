@@ -1,4 +1,6 @@
 
+
+
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -188,9 +190,3 @@ if (document.getElementById('logoutButton')) {
     console.log('llega?');
     const cookieValue = getCookieValue('cookieLogin');
 
-    
-    const data = JSON.parse(cookieValue);
-    console.log('Datos de la cookie:', data);
-  });
-}
-*/
