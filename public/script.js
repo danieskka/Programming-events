@@ -1,4 +1,4 @@
-
+// Logica Buscador
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -35,6 +35,11 @@ if (document.getElementById('searchButton')) {
           card.appendChild(description);
       
           resultsContainer.appendChild(card);
+
+          // Pintar boton favoritos
+          const favButton = document.createElement('button');
+          favButton.textContent = 'Agregar evento a favoritos';
+          card.appendChild(favButton);
         });
       }
       
@@ -63,13 +68,33 @@ if (document.getElementById('searchButton')) {
           card.appendChild(description);
       
           resultsContainer.appendChild(card);
-        }
+
+          // Pintar boton favoritos
+          const favButton = document.createElement('button');
+          favButton.textContent = 'Agregar evento a favoritos';
+          card.appendChild(favButton);
+          }
         });
       }
-      
     } catch (error) {
       console.error(error);
     }
   });
 }
 
+
+//MENU HAMBURGUESA
+const toggleButton = document.getElementById('menu')
+const navWrapper = document.getElementById('nav')
+
+toggleButton.addEventListener('click',() => {
+  toggleButton.classList.toggle('close')
+  navWrapper.classList.toggle('show')
+})
+
+navWrapper.addEventListener('click',e => {
+  if(e.target.id === 'nav'){
+    navWrapper.classList.remove('show')
+    toggleButton.classList.remove('close')
+  }
+})
