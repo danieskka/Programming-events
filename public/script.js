@@ -189,4 +189,4 @@ if (document.getElementById('logoutButton')) {
     event.preventDefault();
     console.log('llega?');
     const cookieValue = getCookieValue('cookieLogin');
-
+*/
