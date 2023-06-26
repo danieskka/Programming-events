@@ -1,8 +1,5 @@
-const Event = require('../models/eventBrite');
-const mongoose = require('mongoose');
-require('../utils/mongo_db');
 
-
+// Logica Buscador
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -39,6 +36,11 @@ if (document.getElementById('searchButton')) {
           card.appendChild(description);
       
           resultsContainer.appendChild(card);
+
+          // Pintar boton favoritos
+          const favButton = document.createElement('button');
+          favButton.textContent = 'Agregar evento a favoritos';
+          card.appendChild(favButton);
         });
       }
       
@@ -62,6 +64,11 @@ if (document.getElementById('searchButton')) {
           card.appendChild(description);
       
           resultsContainer.appendChild(card);
+
+          // Pintar boton favoritos
+          const favButton = document.createElement('button');
+          favButton.textContent = 'Agregar evento a favoritos';
+          card.appendChild(favButton);
         });
       }
       
@@ -70,8 +77,6 @@ if (document.getElementById('searchButton')) {
     }
   });
 }
-
-
 //MENU HAMBURGUESA
 const toggleButton = document.getElementById('menu');
 const navWrapper = document.getElementById('nav')
@@ -88,40 +93,130 @@ navWrapper.addEventListener('click',e => {
   }
 })
 
-//POST ADMIN
-const form = document.getElementById('event-form');
 
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  console.log('Formulario enviado'); 
 
-  const name = document.getElementById('name').value;
-  const image = document.getElementById('image').files[0];
-  const info = document.getElementById('info').value;
-  const description = document.getElementById('description').value;
+//Funcion singup
+if (document.getElementById('signupButton')) {
+  document.getElementById('signupButton').addEventListener('click', (event) => {
+    event.preventDefault();
 
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('image', image);
-  formData.append('info', info);
-  formData.append('description', description);
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-  try {
-    const event = new Event({
-      name: formData.get('name'),
-      image: formData.get('image'),
-      info: formData.get('info'),
-      description: formData.get('description'),
-    });
+    const userData = {
+      name: name,
+      email: email,
+      password: password
+    };
 
-    await event.save();
+    fetch('api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Datos enviados correctamente');
+          
+        } else {
+          console.error('Error al enviar los datos');
+          
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        
+      });
+  });
+}
+//Funcion login
+if (document.getElementById('loginButton')) {
+  document.getElementById('loginButton').addEventListener('click', (event) => {
+    event.preventDefault();
 
-    console.log('Evento guardado en MongoDB');
-  } catch (error) {
-    console.error('Error al guardar el evento en MongoDB:', error);
-  }
-});
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
+    const userData = {
+      email: email,
+      password: password
+    };
+
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(response => {
+        if (response.ok) {
+          // Crea la cookie
+          //const cookieValue = JSON.stringify(UserData);
+          //const expirationDate = new Date();
+          //expirationDate.setTime(expirationDate.getTime() + (60 * 60 * 1000)); //Duracion de la cookie(milisegundos)
+          //document.cookie = `cookieLogin=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/`;//Habilitada para toda la web
+
+          console.log('Estado actualizado');
+        } else {
+          console.error('Error');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
+  });
+}
+
+if (document.getElementById('logoutButton')) {
+  document.getElementById('logoutButton').addEventListener('click', (event) => {
+    event.preventDefault();
+    
+    // Obtener el valor de la cookie 'cookieLogin'
+    const cookieValue = getCookieValue('cookieLogin');
+
+    //Convertimos a JSON
+    const data = JSON.parse(cookieValue);
+    const email = data.email;
+    const password = data.password;
+
+    const postData = {
+      email: email,
+      password: password
+    };
+
+    fetch('/api/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Logout perita ');
+          // Elimina la cookie
+          document.cookie = 'cookieLogin=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;';
+        } else {
+          console.error('Error en el logout');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
+  });
+}
+
+/*
+if (document.getElementById('logoutButton')) {
+  document.getElementById('logoutButton').addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log('llega?');
+    const cookieValue = getCookieValue('cookieLogin');
+*/
 
 
 

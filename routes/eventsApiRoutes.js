@@ -20,6 +20,7 @@ eventsApiRouter.put('/ads', eventsApiController.editEvent);
 eventsApiRouter.delete('/ads', eventsApiController.deleteEvent);
 
 // Rutas /favorites
+eventsApiRouter.get('/favorites', eventsApiController.getFavorites);
 eventsApiRouter.post('/favorites', eventsApiController.addFavorite);
 eventsApiRouter.delete('/favorites', eventsApiController.deleteFavorite);
 
