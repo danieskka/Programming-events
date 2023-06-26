@@ -11,7 +11,7 @@ const objectSchema = {
         required: true,
         unique: true
     },
-    imageg: {
+    image: {
         type: String,
         validate: {
             validator: function(url){

@@ -1,19 +1,19 @@
 doctype html
 html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Pagina de login
-    body  
-        h1 Por favor si esta registrado puede iniciar sesion a continuación
-        main
-        form(action="/login/", method="post")
-          article
-            h2 Log In
-              p Introduzca su email:
-                input(type="email" name="email")
-              p Introduzca su contraseña:
-                input(type="password" name="password")
-          button(type="submit") Enviar
-
-        include ./footer
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Pagina de login
+  body
+    include ./header
+    h1 Por favor, si está registrado puede iniciar sesión a continuación
+    main
+      form
+        article
+          h2 Log In
+          p Introduzca su email:
+            input(type="email" name="email" id="email")
+          p Introduzca su contraseña:
+            input(type="password" name="password" id="password")
+        button(type="submit" id="loginButton") Enviar
+    include ./footer

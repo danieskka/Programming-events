@@ -6,18 +6,17 @@ html
   body
     header.main-header(href='/')
         a.main-logo LOGO
-          nav#nav.main-nav
+        nav#nav.main-nav
             section.nav-links 
                   a.link-item(href='/login') Iniciar Sesión
                   a.link-item(href='/signup') Registrarse
-                  a.link-item(href='/profile') Perfil
+                  a.link-item(href='/dashboard') Perfil
                   a.link-item(href='/contacto') Contacto
-          section#menu.menu-toggle
+        section#menu.menu-toggle
                 span
                 span
                 span
-                span
-                span
+                
 
 
-    script(src="script.js")             
+    script(type="module", src="script.js")             

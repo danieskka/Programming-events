@@ -39,14 +39,45 @@ const deleteProfile = async (req, res) => {
         "message": `Borrado ${response.email}`
     });
 }
+const userLogin = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const result = await user.loginUser(email, password);
 
-const userLogin = (req, res) => {
-    res.status(200).send("Has mandado un POST de logi2n!");
+      if (result.length > 0) {
+        res.status(200).json({ message: 'Login actualizado' });
+      } else {
+        res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+    } catch (err) {
+      console.error('Error', err);
+      res.status(500).json({ message: 'Error en el servidor' });
+    }
+  }
+
+const userLogout = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const result = await user.logoutUser(email, password);
+
+      if (result.length > 0) {
+        res.status(200).json({ message: 'Login actualizado' });
+      } else {
+        res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+    } catch (err) {
+      console.error('Error', err);
+      res.status(500).json({ message: 'Error en el servidor' });
+    }
+  }
+  const getFavorites = async (req, res) => {
+    let fav;
+    
+        fav = await user.getFavsByEmail(req.query.email);
+    
+    res.status(200).json(fav); 
 }
 
-const userLogout = (req, res) => {
-    res.status(200).send("Has mandado un POST de salir!");
-}
 
 
 const getEvents = async (req, res) => {
@@ -95,10 +126,10 @@ const editEvent = async (req, res) => {
 
 const addFavorite = async (req, res) => {
 
-    const newFav = req.body; // {title,date,location,price,image,info}
+    const newFav = req.body; // {name,date,location,image,info, description}
     const response = await user.createFav(newFav);
     res.status(201).json({
-        "message": `Creado: ${newFav.title}`
+        "message": `Creado: ${newFav.name}`
     });
 }
 const deleteEvent = async (req, res) => {
@@ -116,18 +147,18 @@ const deleteEvent = async (req, res) => {
 }
 
 const deleteFavorite = async (req, res) => {
-    const dataFav = req.body; // {title}
+    const dataFav = req.body; // {name}
     const response = await user.deleteFav(dataFav);
     res.status(200).json({
-        "message": `Borrado ${response.title}`
+        "message": `Borrado ${response.name}`
     });
 }
 const editFavorite = async (req, res) => {
    
-    const dataFav = req.body; // {title,date,location,price,image,info, new_title}
+    const dataFav = req.body; // {name,date,location,image,info, description, new_title}
     const response = await user.updateFav(dataFav);
     res.status(202).json({
-        "message": `Actualizado: ${response.title}`
+        "message": `Actualizado: ${response.name}`
     });
 }
 
@@ -187,6 +218,7 @@ module.exports = {
     recoverPass,
     restorePass,
     searchAll,
-    getEvents
+    getEvents,
+    getFavorites
 
 }
