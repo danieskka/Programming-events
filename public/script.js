@@ -1,4 +1,4 @@
-// Logica Buscador
+// Logica Buscador y pintar en el DOM
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -7,8 +7,6 @@ if (document.getElementById('searchButton')) {
     const locationInput = document.getElementById('locationInput').value;
   
     try {
-      
-      // Fetch al endpoint que llama a las 2 funciones de buscar (scrap/BBDD Mongodb)
       const response = await fetch(`/api/search?search=${searchInput}&location=${locationInput}`);
       const data = await response.json();
   
@@ -18,61 +16,23 @@ if (document.getElementById('searchButton')) {
       // Pinta en el DOM desde MondoDB
       if (Array.isArray(data.mongoDB) && data.mongoDB.length > 0) {
         data.mongoDB.forEach(result => {
-          const card = document.createElement('div');
-          card.classList.add('card');
-      
-          const title = document.createElement('h3');
-          title.textContent = result.name;
-      
-          const image = document.createElement('img');
-          image.src = result.imageg;
-      
-          const description = document.createElement('p');
-          description.textContent = result.description;
-      
-          card.appendChild(title);
-          card.appendChild(image);
-          card.appendChild(description);
-      
-          resultsContainer.appendChild(card);
-
-          // Pintar boton favoritos
-          const favButton = document.createElement('button');
-          favButton.textContent = 'Agregar evento a favoritos';
+          const card = createCard(result);
+          const favButton = createFavButton(card, result);
           card.appendChild(favButton);
+          resultsContainer.appendChild(card);
         });
       }
       
       // Pinta en el DOM desde el Scraping
       if (Array.isArray(data.scrapedData) && data.scrapedData.length > 0) {
         data.scrapedData.forEach(result => {
-
           const alreadyExists = data.mongoDB.find(item => item.name === result.name);
-
+          
           if (!alreadyExists) {
-
-          const card = document.createElement('div');
-          card.classList.add('card');
-      
-          const title = document.createElement('h3');
-          title.textContent = result.name;
-      
-          const image = document.createElement('img');
-          image.src = result.image;
-      
-          const description = document.createElement('p');
-          description.textContent = result.description;
-      
-          card.appendChild(title);
-          card.appendChild(image);
-          card.appendChild(description);
-      
-          resultsContainer.appendChild(card);
-
-          // Pintar boton favoritos
-          const favButton = document.createElement('button');
-          favButton.textContent = 'Agregar evento a favoritos';
-          card.appendChild(favButton);
+            const card = createCard(result);
+            const favButton = createFavButton(card, result);
+            card.appendChild(favButton);
+            resultsContainer.appendChild(card);
           }
         });
       }
@@ -81,6 +41,56 @@ if (document.getElementById('searchButton')) {
     }
   });
 }
+
+function createCard(result) {
+  const card = document.createElement('div');
+  card.classList.add('card');
+
+  const title = document.createElement('h3');
+  title.textContent = result.name;
+
+  const image = document.createElement('img');
+  image.src = result.image;
+
+  const description = document.createElement('p');
+  description.textContent = result.description;
+
+  card.appendChild(title);
+  card.appendChild(image);
+  card.appendChild(description);
+
+  return card;
+}
+
+function createFavButton(card, result) {
+  const favButton = document.createElement('button');
+  favButton.textContent = 'Agregar evento a favoritos';
+
+  favButton.addEventListener('click', async function() {
+    try {
+      const response = await fetch('/api/favorites', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(result)
+      });
+
+      if (response.ok) {
+        // Elimina boton de favoritos: after click :)
+        favButton.textContent = 'Agregado a favoritos';
+        favButton.disabled = true;
+      } else {
+        console.error('Error al agregar a favoritos');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  return favButton;
+}
+
 //MENU HAMBURGUESA
 const toggleButton = document.getElementById('menu');
 const navWrapper = document.getElementById('nav')
@@ -99,7 +109,7 @@ navWrapper.addEventListener('click',e => {
 
 
 
-//Funcion singup
+//Funcion signup
 if (document.getElementById('signupButton')) {
   document.getElementById('signupButton').addEventListener('click', (event) => {
     event.preventDefault();

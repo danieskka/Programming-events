@@ -6,6 +6,7 @@ const eventsApiController = require('../controllers/eventsApiController');
 eventsApiRouter.post('/user', eventsApiController.registerProfile);
 eventsApiRouter.put('/user', eventsApiController.editProfile);
 eventsApiRouter.delete('/user', eventsApiController.deleteProfile);
+eventsApiRouter.get('/user', eventsApiController.getAllUsers);
 
 // Rutas login/out
 eventsApiRouter.post('/login', eventsApiController.userLogin);

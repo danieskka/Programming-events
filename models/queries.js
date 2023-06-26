@@ -21,19 +21,21 @@ const createUser = async (newUser) => {
 // GET
 
 const getUsers = async () => {
+
     let client, result;
     try {
-        client = await pool.connect(); // Espera a abrir conexion
-        const data = await client.query(queries.getAllUsers)
-        result = data.rows
+      client = await pool.connect();
+      let data = await client.query(queries.getAllUsers);
+      result = data.rows;
     } catch (err) {
-        console.log(err);
-        throw err;
+      console.log(err);
+      throw err;
     } finally {
         client.release();
     }
-    return result
-}
+    return result;
+  };
+  
 const getUsersByEmail = async (email) => {
     let client, result;
     try {
@@ -213,8 +215,9 @@ const loginUser = async (email, password) => {
     }
   }
 
+console.log('SQL connected');
 
-users = {
+const users_queries = {
     createUser,
     getUsersByEmail,
     getUsers,
@@ -226,9 +229,7 @@ users = {
     getFavs,
     getFavsByEmail,
     loginUser,
-    logoutUser
-
-
-    
+    logoutUser 
 }
-module.exports = users;
+
+module.exports = users_queries;

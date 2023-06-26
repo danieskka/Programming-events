@@ -13,10 +13,10 @@ const registerProfile = async (req, res) => {
 const getAllUsers = async (req, res) => {
     let users;
     if (req.query.email) {
-        users = await users.getUsersByEmail(req.query.email);
+        users = await user.getUsersByEmail(req.query.email);
     }
     else {
-        users = await users.getUsers();
+        users = await user.getUsers();
     }
     res.status(200).json(users); 
 }
@@ -70,15 +70,16 @@ const userLogout = async (req, res) => {
       res.status(500).json({ message: 'Error en el servidor' });
     }
   }
-  const getFavorites = async (req, res) => {
+const getFavorites = async (req, res) => {
     let fav;
-    
+    if (req.query.email) {
         fav = await user.getFavsByEmail(req.query.email);
-    
-    res.status(200).json(fav); 
+    }
+    else {
+        fav = await user.getFavs();
+    }
+    res.status(200).json(fav);
 }
-
-
 
 const getEvents = async (req, res) => {
 
