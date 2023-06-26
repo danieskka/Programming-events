@@ -81,10 +81,8 @@ if (document.getElementById('searchButton')) {
     }
   });
 }
-
-
 //MENU HAMBURGUESA
-const toggleButton = document.getElementById('menu')
+const toggleButton = document.getElementById('menu');
 const navWrapper = document.getElementById('nav')
 
 toggleButton.addEventListener('click',() => {
@@ -98,3 +96,134 @@ navWrapper.addEventListener('click',e => {
     toggleButton.classList.remove('close')
   }
 })
+
+
+
+//Funcion singup
+if (document.getElementById('signupButton')) {
+  document.getElementById('signupButton').addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const userData = {
+      name: name,
+      email: email,
+      password: password
+    };
+
+    fetch('api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Datos enviados correctamente');
+          
+        } else {
+          console.error('Error al enviar los datos');
+          
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        
+      });
+  });
+}
+//Funcion login
+if (document.getElementById('loginButton')) {
+  document.getElementById('loginButton').addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const userData = {
+      email: email,
+      password: password
+    };
+
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(response => {
+        if (response.ok) {
+          // Crea la cookie
+          //const cookieValue = JSON.stringify(UserData);
+          //const expirationDate = new Date();
+          //expirationDate.setTime(expirationDate.getTime() + (60 * 60 * 1000)); //Duracion de la cookie(milisegundos)
+          //document.cookie = `cookieLogin=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/`;//Habilitada para toda la web
+
+          console.log('Estado actualizado');
+        } else {
+          console.error('Error');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
+  });
+}
+
+if (document.getElementById('logoutButton')) {
+  document.getElementById('logoutButton').addEventListener('click', (event) => {
+    event.preventDefault();
+    
+    // Obtener el valor de la cookie 'cookieLogin'
+    const cookieValue = getCookieValue('cookieLogin');
+
+    //Convertimos a JSON
+    const data = JSON.parse(cookieValue);
+    const email = data.email;
+    const password = data.password;
+
+    const postData = {
+      email: email,
+      password: password
+    };
+
+    fetch('/api/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Logout perita ');
+          // Elimina la cookie
+          document.cookie = 'cookieLogin=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;';
+        } else {
+          console.error('Error en el logout');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
+  });
+}
+
+/*
+if (document.getElementById('logoutButton')) {
+  document.getElementById('logoutButton').addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log('llega?');
+    const cookieValue = getCookieValue('cookieLogin');
+*/
+
+
+
+
+
+
