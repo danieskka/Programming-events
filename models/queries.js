@@ -34,11 +34,11 @@ const getUsers = async () => {
     }
     return result
 }
-const getAuthorsByEmail = async (email) => {
+const getUsersByEmail = async (email) => {
     let client, result;
     try {
         client = await pool.connect(); // Espera a abrir conexion
-        const data = await client.query(queries.getAuthorsByEmail, [email])
+        const data = await client.query(queries.getUsersByEmail, [email])
         result = data.rows
     } catch (err) {
         console.log(err);
@@ -83,12 +83,40 @@ const deleteUser = async (user) => {
     return result
 }
 const createFav = async (newFav) => {
-    const { title, date, location, price, image, info } = newFav;
+    const { name, date, image, info, description, email } = newFav;
     let client, result;
     try {
         client = await pool.connect(); // Espera a abrir conexion
-        const data = await client.query(queries.createFav,[title, date, location, price, image, info])
+        const data = await client.query(queries.createFav,[name, date, image, info, description, email])
         result = data.rowCount
+    } catch (err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+    return result
+}
+const getFavs = async () => {
+    let client, result;
+    try {
+        client = await pool.connect(); // Espera a abrir conexion
+        const data = await client.query(queries.getAllFavs)
+        result = data.rows
+    } catch (err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+    return result
+}
+const getFavsByEmail = async (email) => {
+    let client, result;
+    try {
+        client = await pool.connect(); // Espera a abrir conexion
+        const data = await client.query(queries.getFavsByEmail, [email])
+        result = data.rows
     } catch (err) {
         console.log(err);
         throw err;
@@ -131,17 +159,75 @@ const updateFav = async (favo) => {
     }
     return result
 }
+const loginUser = async (email, password) => {
+    let client;
+    try {
+      client = await pool.connect(); // Abrir conexión a la base de datos
+  
+      const query = 'SELECT * FROM users WHERE email = $1 AND password = $2';
+      const values = [email, password];
+      const result = await client.query(query, values);
+  
+      if (result.rowCount > 0) {
+        
+        const updateQuery = 'UPDATE users SET login = true WHERE email = $1 AND password = $2';
+        await client.query(updateQuery, values);
+      }
+  
+      
+      return result.rows;
+    } catch (err) {
+      console.error('Error', err);
+      throw err;
+    } finally {
+      if (client && client.release) {
+        client.release();
+      }
+    }
+  }
+ 
+  const logoutUser = async (email, password) => {
+    let client;
+    try {
+      client = await pool.connect(); // Abrir conexión a la base de datos
+  
+      const query = 'SELECT * FROM users WHERE email = $1 AND password = $2';
+      const values = [email, password];
+      const result = await client.query(query, values);
+  
+      if (result.rowCount > 0) {
+        
+        const updateQuery = 'UPDATE users SET login = false WHERE email = $1 AND password = $2';
+        await client.query(updateQuery, values);
+      }
+  
+      
+      return result.rows;
+    } catch (err) {
+      console.error('Error', err);
+      throw err;
+    } finally {
+      if (client && client.release) {
+        client.release();
+      }
+    }
+  }
 
 
 users = {
     createUser,
-    getAuthorsByEmail,
+    getUsersByEmail,
     getUsers,
     updateUser,
     deleteUser,
     createFav,
     deleteFav,
-    updateFav
+    updateFav,
+    getFavs,
+    getFavsByEmail,
+    loginUser,
+    logoutUser
+
 
     
 }
