@@ -1,3 +1,4 @@
+// Logica Buscador
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -34,6 +35,11 @@ if (document.getElementById('searchButton')) {
           card.appendChild(description);
       
           resultsContainer.appendChild(card);
+
+          // Pintar boton favoritos
+          const favButton = document.createElement('button');
+          favButton.textContent = 'Agregar evento a favoritos';
+          card.appendChild(favButton);
         });
       }
       
@@ -57,6 +63,11 @@ if (document.getElementById('searchButton')) {
           card.appendChild(description);
       
           resultsContainer.appendChild(card);
+
+          // Pintar boton favoritos
+          const favButton = document.createElement('button');
+          favButton.textContent = 'Agregar evento a favoritos';
+          card.appendChild(favButton);
         });
       }
       
