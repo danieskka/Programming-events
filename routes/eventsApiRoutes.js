@@ -17,6 +17,7 @@ eventsApiRouter.get('/search', eventsApiController.searchAll);
 
 // Rutas /ads
 eventsApiRouter.post('/ads', eventsApiController.createEvent);
+eventsApiRouter.get('/ads', eventsApiController.getEvents);
 eventsApiRouter.put('/ads', eventsApiController.editEvent);
 eventsApiRouter.delete('/ads', eventsApiController.deleteEvent);
 
