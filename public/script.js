@@ -115,6 +115,7 @@ if (document.getElementById('signupButton')) {
 // ************************DASHBOARD**************************
 
 //POST ADMIN
+//POST ADMIN
 /**
  * Maneja el evento de envío del formulario.
  *
@@ -123,35 +124,66 @@ if (document.getElementById('signupButton')) {
  */
 const form = document.getElementById('event-form');
 
+form.addEventListener('submit', async function(event) {
+  event.preventDefault();
+  console.log('Formulario enviado'); 
 
   const name = document.getElementById('name').value;
-  const image = document.getElementById('image').files[0];
+  const image = document.getElementById('image').value;
   const info = document.getElementById('info').value;
   const description = document.getElementById('description').value;
 
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('image', image);
-  formData.append('info', info);
-  formData.append('description', description);
+  const eventData = {
+    name,
+    image,
+    info,
+    description
+  };
 
+  
   try {
-    const event = new Event({
-      name: formData.get('name'),
-      image: formData.get('image'),
-      info: formData.get('info'),
-      description: formData.get('description'),
+    const response = await fetch('/api/ads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(eventData)
     });
 
-    await event.save();
+    if (response.ok) {
+      const data = await response.json();
+      document.getElementById("message").innerHTML = "Evento creado" 
+      console.log(data);
+      const eventsContainer = document.querySelector('.event-list-container');
+      const section = document.createElement('section');
+      section.classList.add('event-container');
+      eventsContainer.appendChild(section)
 
-    console.log('Evento guardado en MongoDB');
+      const newEvent = `
+          <p class='data'>Evento: ${eventData.name}</p>
+          <p class='data'>Imagen: ${eventData.image}</p>
+          <p class='data'>Localización: ${eventData.info}</p>
+          <p class='data'>Descripcion: ${eventData.description}</p>
+          <button id='delete'>Eliminar</button>
+          <button id='edit'>Editar</button>`
+
+      section.innerHTML += newEvent;
+    } else {
+      throw new Error('Error al enviar el formulario');
+    }
   } catch (error) {
-    console.error('Error al guardar el evento en MongoDB:', error);
+    console.error(error);
   }
 });
 
+//PUT ADMIN
 
+// const updateButtons = document.querySelectorAll('.edit');
+
+// updateButtons.forEach(updateButton => {
+//   updateButton.addEventListener('click', async function() {
+//     const eventContainer = updateButton.closest('.event-container');
+   
 
 //     const editForm = document.createElement('form');
 //     editForm.classList.add('edit-form');
@@ -275,4 +307,4 @@ eventsContainer.addEventListener('click', async function(event) {
     }
   }
 });
-
+}
