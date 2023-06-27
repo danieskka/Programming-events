@@ -23,7 +23,7 @@ const createAndStoreToken = (req,res)=>{
     res.cookie("access-token", token, {
         httpOnly: true,
         sameSite: "lax",
-    }).json({"success": true, "msj":"Welcome, you are logged in"});
+    }).redirect('/');
 }
 
 // CONTROLLER LOGOUT
@@ -37,7 +37,7 @@ const destroySessionAndClearCookies = (req, res) => {
     req.logout(function(err) {
         if (err) { return next(err); }
         req.session.destroy();
-        res.clearCookie("access-token").redirect('/login');
+        res.clearCookie("access-token").redirect('/');
     });
 }
 
