@@ -106,12 +106,6 @@ navWrapper.addEventListener('click',e => {
 })
 
 
-//Funcion singup
-// if (document.getElementById('signupButton')) {
-//   document.getElementById('signupButton').addEventListener('click', function(event) {
-//     event.preventDefault();
-// }
-
 // ************************DASHBOARD**************************
 
 //POST ADMIN
@@ -177,72 +171,72 @@ form.addEventListener('submit', async function(event) {
 
 //PUT ADMIN
 
-// const updateButtons = document.querySelectorAll('.edit');
+const updateButtons = document.querySelectorAll('.edit');
 
-// updateButtons.forEach(updateButton => {
-//   updateButton.addEventListener('click', async function() {
-//     const eventContainer = updateButton.closest('.event-container');
+updateButtons.forEach(updateButton => {
+  updateButton.addEventListener('click', async function() {
+    const eventContainer = updateButton.closest('.event-container');
    
 
-//     const editForm = document.createElement('form');
-//     editForm.classList.add('edit-form');
+    const editForm = document.createElement('form');
+    editForm.classList.add('edit-form');
 
-//     editForm.innerHTML = `
-//       <label for="edit-name">Nombre:</label>
-//       <input type="text" id="edit-name" value="${eventContainer.querySelector('.name').textContent}">
-//       <label for="edit-image">Imagen:</label>
-//       <input type="text" id="edit-image" value="${eventContainer.querySelector('.image').src}">
-//       <label for="edit-info">Información:</label>
-//       <input type="text" id="edit-info" value="${eventContainer.querySelector('.info').textContent}">
-//       <label for="edit-description">Descripción:</label>
-//       <textarea id="edit-description">${eventContainer.querySelector('.description').textContent}</textarea>
-//       <button type="submit">Actualizar</button>
-//     `;
+    editForm.innerHTML = `
+      <label for="edit-name">Nombre:</label>
+      <input type="text" id="edit-name" value="${eventContainer.querySelector('.name').textContent}">
+      <label for="edit-image">Imagen:</label>
+      <input type="text" id="edit-image" value="${eventContainer.querySelector('.image').src}">
+      <label for="edit-info">Información:</label>
+      <input type="text" id="edit-info" value="${eventContainer.querySelector('.info').textContent}">
+      <label for="edit-description">Descripción:</label>
+      <textarea id="edit-description">${eventContainer.querySelector('.description').textContent}</textarea>
+      <button type="submit">Actualizar</button>
+    `;
 
-//     eventContainer.appendChild(editForm);
+    eventContainer.appendChild(editForm);
 
-//     editForm.addEventListener('submit', async function(event) {
-//       event.preventDefault();
+    editForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
 
-//       const updatedName = document.getElementById('edit-name').value;
-//       const updatedImage = document.getElementById('edit-image').value;
-//       const updatedInfo = document.getElementById('edit-info').value;
-//       const updatedDescription = document.getElementById('edit-description').value;
+      const updatedName = document.getElementById('edit-name').value;
+      const updatedImage = document.getElementById('edit-image').value;
+      const updatedInfo = document.getElementById('edit-info').value;
+      const updatedDescription = document.getElementById('edit-description').value;
 
-//       const updatedEventData = {
-//         name: updatedName,
-//         image: updatedImage,
-//         info: updatedInfo,
-//         description: updatedDescription
-//       };
+      const updatedEventData = {
+        name: updatedName,
+        image: updatedImage,
+        info: updatedInfo,
+        description: updatedDescription
+      };
 
-//       try {
-//         const response = await fetch(`/api/ads`, {
-//           method: 'PUT',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify(updatedEventData)
-//         });
+      try {
+        const response = await fetch(`/api/ads`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedEventData)
+        });
 
-//         if (response.ok) {
-//           const data = await response.json();
+        if (response.ok) {
+          const data = await response.json();
 
-//           eventContainer.querySelector('.name').textContent = data.name;
-//           eventContainer.querySelector('.image').src = data.image;
-//           eventContainer.querySelector('.info').textContent = data.info;
-//           eventContainer.querySelector('.description').textContent = data.description;
+          eventContainer.querySelector('.name').textContent = data.name;
+          eventContainer.querySelector('.image').src = data.image;
+          eventContainer.querySelector('.info').textContent = data.info;
+          eventContainer.querySelector('.description').textContent = data.description;
 
-//           editForm.remove();
-//         } else {
-//           throw new Error('Error al actualizar el evento');
-//         }
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     });
-//   });
-// })
+          editForm.remove();
+        } else {
+          throw new Error('Error al actualizar el evento');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  });
+})
 
 
 // const updateButtons = document.querySelectorAll('.edit');
@@ -306,3 +300,105 @@ eventsContainer.addEventListener('click', async function(event) {
     }
   }
 });
+
+
+//***********************SIGN UP Y LOGIN***************************/
+//Funcion singup
+if (document.getElementById('signupButton')) {
+  document.getElementById('signupButton').addEventListener('click', (event) => {
+    event.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const userData = {
+      name: name,
+      email: email,
+      password: password
+    };
+    fetch('api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Datos enviados correctamente');
+        } else {
+          console.error('Error al enviar los datos');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
+  });
+}
+//Funcion login
+if (document.getElementById('loginButton')) {
+  document.getElementById('loginButton').addEventListener('click', (event) => {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const userData = {
+      email: email,
+      password: password
+    };
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(response => {
+        if (response.ok) {
+          // Crea la cookie
+          //const cookieValue = JSON.stringify(UserData);
+          //const expirationDate = new Date();
+          //expirationDate.setTime(expirationDate.getTime() + (60 * 60 * 1000)); //Duracion de la cookie(milisegundos)
+          //document.cookie = `cookieLogin=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/`;//Habilitada para toda la web
+          console.log('Estado actualizado');
+        } else {
+          console.error('Error');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
+  });
+}
+if (document.getElementById('logoutButton')) {
+  document.getElementById('logoutButton').addEventListener('click', (event) => {
+    event.preventDefault();
+    // Obtener el valor de la cookie 'cookieLogin'
+    const cookieValue = getCookieValue('cookieLogin');
+    //Convertimos a JSON
+    const data = JSON.parse(cookieValue);
+    const email = data.email;
+    const password = data.password;
+    const postData = {
+      email: email,
+      password: password
+    };
+    fetch('/api/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Logout perita ');
+          // Elimina la cookie
+          document.cookie = 'cookieLogin=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;';
+        } else {
+          console.error('Error en el logout');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
+  });
+}
