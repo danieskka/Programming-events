@@ -3,7 +3,7 @@ const eventsApiRouter = express.Router();
 const eventsApiController = require('../controllers/eventsApiController');
 
 // Rutas /user
-eventsApiRouter.post('/user', eventsApiController.registerProfile);
+// eventsApiRouter.post('/user', eventsApiController.registerProfile);
 eventsApiRouter.put('/user', eventsApiController.editProfile);
 eventsApiRouter.delete('/user', eventsApiController.deleteProfile);
 eventsApiRouter.get('/user', eventsApiController.getAllUsers);

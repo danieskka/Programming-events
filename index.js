@@ -10,6 +10,7 @@ const port = 3000;
 
 const eventsRoutes = require('./routes/eventsRoutes')
 const eventsApiRoutes = require('./routes/eventsApiRoutes')
+const authRoutes = require ('./routes/authRoutes')
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -25,6 +26,9 @@ app.use('/',eventsRoutes);
 
 // Endpoints API
 app.use('/api/',eventsApiRoutes);
+
+// Endpoint Middlewares
+app.use('/',authRoutes);
 
 // Errores
 app.use(error404);

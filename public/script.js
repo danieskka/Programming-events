@@ -123,7 +123,6 @@ navWrapper.addEventListener('click',e => {
 
 // ************************DASHBOARD**************************
 
-//Funcion signup
 //POST ADMIN
 /**
  * Maneja el evento de envío del formulario.
@@ -131,6 +130,7 @@ navWrapper.addEventListener('click',e => {
  * @param {Event} event - El objeto del evento de envío del formulario.
  * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa el evento.
  */
+if(document.getElementById('event-form')) {
 const form = document.getElementById('event-form');
 
 form.addEventListener('submit', async function(event) {
@@ -183,7 +183,8 @@ form.addEventListener('submit', async function(event) {
   } catch (error) {
     console.error(error);
   }
-});
+})
+}
 
 //PUT ADMIN
 
@@ -278,20 +279,9 @@ updateButtons.forEach(updateButton => {
 //     }
     
 
-
-// DELETE ADMIN
-
-// const eventsContainer = document.querySelector('.event-list-container');
-
-// eventsContainer.addEventListener('click', function(event) {
-//   if (event.target.id === 'delete') {
-//     const eventContainer = event.target.closest('.event-container');
-//     eventContainer.remove();
-//   }
-// });
-
 // DELETE ADMIN
 const eventsContainer = document.querySelector('.event-list-container');
+if(document.querySelector('.event-list-container')) {
 eventsContainer.addEventListener('click', async function(event) {
   if (event.target.id === 'delete') {
     const eventContainer = event.target.closest('.event-container');
@@ -316,11 +306,12 @@ eventsContainer.addEventListener('click', async function(event) {
     }
   }
 });
-
+}
 
 //***********************SIGN UP Y LOGIN***************************/
-if (document.getElementById('signupButton')) {
-  document.getElementById('signupButton').addEventListener('click', (event) => {
+// Sign Up
+if (document.getElementById('signUpForm')) {
+  document.getElementById('signUpForm').addEventListener('submit', (event) => {
     event.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
@@ -330,7 +321,7 @@ if (document.getElementById('signupButton')) {
       email: email,
       password: password
     };
-    fetch('api/user', {
+    fetch('/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -350,8 +341,8 @@ if (document.getElementById('signupButton')) {
   });
 }
 //Funcion login
-if (document.getElementById('loginButton')) {
-  document.getElementById('loginButton').addEventListener('click', (event) => {
+if (document.getElementById('loginForm')) {
+  document.getElementById('loginForm').addEventListener('submit', (event) => {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -368,11 +359,6 @@ if (document.getElementById('loginButton')) {
     })
       .then(response => {
         if (response.ok) {
-          // Crea la cookie
-          //const cookieValue = JSON.stringify(UserData);
-          //const expirationDate = new Date();
-          //expirationDate.setTime(expirationDate.getTime() + (60 * 60 * 1000)); //Duracion de la cookie(milisegundos)
-          //document.cookie = `cookieLogin=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/`;//Habilitada para toda la web
           console.log('Estado actualizado');
         } else {
           console.error('Error');
@@ -383,6 +369,7 @@ if (document.getElementById('loginButton')) {
       });
   });
 }
+// Logout
 if (document.getElementById('logoutButton')) {
   document.getElementById('logoutButton').addEventListener('click', (event) => {
     event.preventDefault();
