@@ -188,6 +188,7 @@ form.addEventListener('submit', async function(event) {
 
 //PUT ADMIN
 const eventsDetails = document.querySelector('.event-list-container');
+if(document.querySelector('.event-list-container')) {
 eventsDetails.addEventListener('click', async function(event) {
   if (event.target.id === 'edit') {
     const eventContainer = event.target.closest('.event-container');
@@ -260,8 +261,8 @@ eventsDetails.addEventListener('click', async function(event) {
       }
     });
   }
-});
-
+})
+};
     
 
 // DELETE ADMIN
