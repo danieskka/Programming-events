@@ -1,13 +1,15 @@
 doctype html
 html(lang="en")
-    head
-        include ./header
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title users 
-    body  
-        h1 SOLO PERMISO PARA ADMIN: usuarios registrados a continuacion
-        main
-            section.main-container
-
-        include ./footer
+  head
+    include ./header
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Usuarios
+  body
+    h1 Listado de Usuarios Registrados:
+    main
+      section.main-container
+    form
+      button(type="submit", id="getUsers") Obtener Usuarios
+    script(type="module", src="./script.js")
+    include ./footer
