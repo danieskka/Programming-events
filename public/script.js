@@ -123,7 +123,6 @@ navWrapper.addEventListener('click',e => {
 
 // ************************DASHBOARD**************************
 
-//Funcion signup
 //POST ADMIN
 /**
  * Maneja el evento de envío del formulario.
@@ -131,6 +130,8 @@ navWrapper.addEventListener('click',e => {
  * @param {Event} event - El objeto del evento de envío del formulario.
  * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa el evento.
  */
+
+
 const form = document.getElementById('event-form');
 
 form.addEventListener('submit', async function(event) {
@@ -169,10 +170,10 @@ form.addEventListener('submit', async function(event) {
       eventsContainer.appendChild(section)
 
       const newEvent = `
-          <p class='data'>Evento: ${eventData.name}</p>
-          <p class='data'>Imagen: ${eventData.image}</p>
-          <p class='data'>Localización: ${eventData.info}</p>
-          <p class='data'>Descripcion: ${eventData.description}</p>
+          <p class='data'>${eventData.name}</p>
+          <p class='data'>${eventData.image}</p>
+          <p class='data'>${eventData.info}</p>
+          <p class='data'>${eventData.description}</p>
           <button id='delete'>Eliminar</button>
           <button id='edit'>Editar</button>`
 
@@ -186,26 +187,29 @@ form.addEventListener('submit', async function(event) {
 });
 
 //PUT ADMIN
-
-const updateButtons = document.querySelectorAll('.edit');
-
-updateButtons.forEach(updateButton => {
-  updateButton.addEventListener('click', async function() {
-    const eventContainer = updateButton.closest('.event-container');
-   
+const eventsDetails = document.querySelector('.event-list-container');
+eventsDetails.addEventListener('click', async function(event) {
+  if (event.target.id === 'edit') {
+    const eventContainer = event.target.closest('.event-container');
+    const eventName = eventContainer.querySelector('p:nth-child(1)').textContent;
 
     const editForm = document.createElement('form');
     editForm.classList.add('edit-form');
 
+    const currentName = eventContainer.querySelector('p:nth-child(1)').textContent;
+    const currentImage = eventContainer.querySelector('p:nth-child(2)').textContent;
+    const currentInfo = eventContainer.querySelector('p:nth-child(3)').textContent;
+    const currentDescription = eventContainer.querySelector('p:nth-child(4)').textContent;
+
     editForm.innerHTML = `
-      <label for="edit-name">Nombre:</label>
-      <input type="text" id="edit-name" value="${eventContainer.querySelector('.name').textContent}">
+      <label for="edit-name">Evento:</label>
+      <input type="text" id="edit-name" value="${currentName}">
       <label for="edit-image">Imagen:</label>
-      <input type="text" id="edit-image" value="${eventContainer.querySelector('.image').src}">
-      <label for="edit-info">Información:</label>
-      <input type="text" id="edit-info" value="${eventContainer.querySelector('.info').textContent}">
+      <input type="text" id="edit-image" value="${currentImage}">
+      <label for="edit-info">Localización:</label>
+      <input type="text" id="edit-info" value="${currentInfo}">
       <label for="edit-description">Descripción:</label>
-      <textarea id="edit-description">${eventContainer.querySelector('.description').textContent}</textarea>
+      <textarea id="edit-description">${currentDescription}</textarea>
       <button type="submit">Actualizar</button>
     `;
 
@@ -219,29 +223,33 @@ updateButtons.forEach(updateButton => {
       const updatedInfo = document.getElementById('edit-info').value;
       const updatedDescription = document.getElementById('edit-description').value;
 
-      const updatedEventData = {
-        name: updatedName,
-        image: updatedImage,
-        info: updatedInfo,
-        description: updatedDescription
+      const eventData = {
+        name: currentName,
+        image: currentImage,
+        info: currentInfo,
+        description: currentDescription,
+        new_name: updatedName,
+        new_image: updatedImage,
+        new_info: updatedInfo,
+        new_description: updatedDescription
       };
 
       try {
-        const response = await fetch(`/api/ads`, {
+        const response = await fetch('/api/ads', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(updatedEventData)
+          body: JSON.stringify(eventData)
         });
 
         if (response.ok) {
           const data = await response.json();
 
-          eventContainer.querySelector('.name').textContent = data.name;
-          eventContainer.querySelector('.image').src = data.image;
-          eventContainer.querySelector('.info').textContent = data.info;
-          eventContainer.querySelector('.description').textContent = data.description;
+          eventContainer.querySelector('p:nth-child(1)').textContent = eventData.new_name;
+          eventContainer.querySelector('p:nth-child(2)').textContent = eventData.new_image;
+          eventContainer.querySelector('p:nth-child(3)').textContent = eventData.new_info;
+          eventContainer.querySelector('p:nth-child(4)').textContent = eventData.new_description;
 
           editForm.remove();
         } else {
@@ -251,44 +259,10 @@ updateButtons.forEach(updateButton => {
         console.error(error);
       }
     });
-  });
-})
+  }
+});
 
-
-// const updateButtons = document.querySelectorAll('.edit');
-// updateButtons.forEach(updateButton => {
-//   updateButton.addEventListener('click', function(event) {
-//     if(event.target.textContent === 'Editar'){
-//       const eventContainer = updateButton.parenElement.parenElement;
-//       const editForm = document.createElement('form');
-//       editForm.classList.add('edit-form');
-//       editForm.innerHTML = `
-//       <label for="name">Nombre:</label>
-//       <input type="text" id="name" value="${eventContainer.querySelector('p:nth-child(1)').textContent}">
-//       <label for="image">Imagen:</label>
-//       <input type="text" id="image" value="${eventContainer.querySelector('p:nth-child(2)').textContent}">
-//       <label for="info">Información:</label>
-//       <input type="text" id="info" value="${eventContainer.querySelector('p:nth-child(3)').textContent}">
-//       <label for="description">Descripción:</label>
-//       <textarea id="description">${eventContainer.querySelector('p:nth-child(4)').textContent}</textarea>
-//       <button type="submit">Actualizar</button>
-//     `;
-//     eventContainer.innerHTML += editForm;
-
-//     }
     
-
-
-// DELETE ADMIN
-
-// const eventsContainer = document.querySelector('.event-list-container');
-
-// eventsContainer.addEventListener('click', function(event) {
-//   if (event.target.id === 'delete') {
-//     const eventContainer = event.target.closest('.event-container');
-//     eventContainer.remove();
-//   }
-// });
 
 // DELETE ADMIN
 const eventsContainer = document.querySelector('.event-list-container');

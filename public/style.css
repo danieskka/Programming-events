@@ -3,24 +3,24 @@
     padding: 0;
 }
 
+:root {
+  --black: #0E1114;
+  --light-black: #0B1215;
+  --dark-blue-gray: #1C4D50;
+  --light-blue-gray: #315053;
+  --white: #FFFFFF;
+
+}
+
 body {
-    background-image: url('https://midu.dev/images/wallpapers/una-taza-de-javascript.png');
+    background-image: url('./assets/background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    /* max-width: 100%;
-    height: auto; */
     color: white;
     font-weight: bolder;
-    margin: 0;
-    padding: 20px;
+    height: auto;
     box-sizing: border-box;
-}
-
-header {
-    background-color: #333;
-    padding: 20px;
-    text-align: center;
 }
 
 h2 {
@@ -87,6 +87,7 @@ a{
   
 .main-header{
     height: 50px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -98,6 +99,7 @@ a{
     color: black;
     font-size:32px;
     text-decoration:none;
+    padding-left: 15px;
   }
   
   .main-nav{
@@ -110,7 +112,10 @@ a{
     transition: all .2s linear;
     background-color: rgba(0,0,0,.7);
     z-index: 100;
+    
   }
+
+ 
   
   .main-nav.show{
     margin-left: 0;
@@ -160,6 +165,7 @@ a{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    padding-right: 15px;
   }
   
   .menu-toggle span{
