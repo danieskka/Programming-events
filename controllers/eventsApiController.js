@@ -12,10 +12,10 @@ const registerProfile = async (req, res) => {
 const getAllUsers = async (req, res) => {
     let users;
     if (req.query.email) {
-        users = await user.getUsersByEmail(req.query.email);
+        users = await users.getUsersByEmail(req.query.email);
     }
     else {
-        users = await user.getUsers();
+        users = await users.getUsers();
     }
     res.status(200).json(users); 
 }
@@ -52,16 +52,15 @@ const userLogout = async (req, res) => {
       res.status(500).json({ message: 'Error en el servidor' });
     }
   }
-const getFavorites = async (req, res) => {
+  const getFavorites = async (req, res) => {
     let fav;
-    if (req.query.email) {
+    
         fav = await user.getFavsByEmail(req.query.email);
-    }
-    else {
-        fav = await user.getFavs();
-    }
-    res.status(200).json(fav);
+    
+    res.status(200).json(fav); 
 }
+
+
 
 const getEvents = async (req, res) => {
 
@@ -171,7 +170,7 @@ const searchAll = async (req,res) => {
 
         const allData = {
             mongoDB: events,
-            scrapedData: scrapedData,
+            scrapedData: scrapedData
         }
 
         res.status(200).json(allData);
