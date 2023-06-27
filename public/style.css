@@ -540,8 +540,22 @@ button{
   text-transform: uppercase;
   text-align: center;
   font-size: 40px;
-  }
+}
 
+.loadProfile li{
+  list-style: none;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  margin-bottom: 10px;
+}
+
+.loadProfile{
+  background-color: rgba(0,0,0,0.7);
+  padding: 30px 40px;
+  border-radius: 5px;
+  border: 2px solid var(--bright-blue);
+}
 
 @media screen and (min-width:768px) {
 
