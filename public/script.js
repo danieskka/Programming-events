@@ -266,6 +266,7 @@ eventsDetails.addEventListener('click', async function(event) {
 
 // DELETE ADMIN
 const eventsContainer = document.querySelector('.event-list-container');
+if(document.querySelector('.event-list-container')) {
 eventsContainer.addEventListener('click', async function(event) {
   if (event.target.id === 'delete') {
     const eventContainer = event.target.closest('.event-container');
@@ -290,6 +291,7 @@ eventsContainer.addEventListener('click', async function(event) {
     }
   }
 });
+}
 
 
 //***********************SIGN UP Y LOGIN***************************/
@@ -390,4 +392,123 @@ if (document.getElementById('logoutButton')) {
         console.error('Error en la solicitud:', error);
       });
   });
+}
+
+
+//Pintar Favoritos de usuario
+if (document.getElementById('getFavs')) {
+  document.getElementById('getFavs').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var email = 'prueba@gmail.com';
+    var url = '/api/favorites?email=' + encodeURIComponent(email);
+
+    fetch(url)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        var favorites = Array.isArray(data) ? data : [];
+        var mainContainer = document.querySelector('.main-container');
+
+        mainContainer.innerHTML = '';
+
+        favorites.forEach(function(favorite) {
+          var favoriteData = {
+            name: favorite.name || '',
+            date: favorite.date ? favorite.date.slice(0, 10) : '',
+            image: favorite.image || '',
+            description: favorite.description || ''
+          };
+
+          var ulElement = document.createElement('ul');
+
+          Object.keys(favoriteData).forEach(function(key) {
+            var liElement = document.createElement('li');
+            liElement.textContent = key + ': ' + favoriteData[key];
+            ulElement.appendChild(liElement);
+          });
+
+          mainContainer.appendChild(ulElement);
+        });
+      })
+      .catch(function(error) {
+        console.error('Error:', error);
+      });
+  });
+}
+//Tarjetas AllUsers
+if (document.getElementById('getUsers')) {
+  document.getElementById('getUsers').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var url = '/api/user';
+
+    fetch(url)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        var profiles = Array.isArray(data) ? data : [];
+        var mainContainer = document.querySelector('.main-container');
+
+        mainContainer.innerHTML = '';
+
+        profiles.forEach(function(profile) {
+          var profileData = {
+            name: profile.name || '',
+            email: profile.email || '',
+            password: '****'
+          };
+
+          var ulElement = document.createElement('ul');
+
+          Object.keys(profileData).forEach(function(key) {
+            var liElement = document.createElement('li');
+            liElement.textContent = key + ': ' + profileData[key];
+            ulElement.appendChild(liElement);
+          });
+
+          mainContainer.appendChild(ulElement);
+        });
+      })
+      .catch(function(error) {
+        console.error('Error:', error);
+      });
+  });
+}
+
+
+//Datos Profile
+if (document.querySelector('section.loadProfile')) {
+  var email = 'prueba@gmail.com';
+  var url = '/api/user?email=' + encodeURIComponent(email);
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      var profiles = Array.isArray(data) ? data : [];
+      var mainContainer = document.querySelector('section.loadProfile');
+      var ulElement = document.createElement('ul');
+
+      profiles.forEach(function(profile) {
+        var profileData = {
+          name: profile.name,
+          email: profile.email,
+          password: '****'
+        };
+
+        Object.keys(profileData).forEach(function(key) {
+          var liElement = document.createElement('li');
+          liElement.textContent = key + ': ' + profileData[key];
+          ulElement.appendChild(liElement);
+        });
+      });
+
+      mainContainer.innerHTML = '';
+      mainContainer.appendChild(ulElement);
+    })
+    .catch(function(error) {
+      console.error('Error:', error);
+    });
 }
