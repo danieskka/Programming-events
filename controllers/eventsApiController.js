@@ -28,8 +28,6 @@ const editProfile = async (req, res) => {
     });
 }
 
-
-
 const deleteProfile = async (req, res) => {
     
     const dataUser = req.body; // {email}
