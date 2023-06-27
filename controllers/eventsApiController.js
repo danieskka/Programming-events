@@ -1,24 +1,33 @@
 const user = require('../models/queries'); // Importar el modelo de la BBDD
 const Brite = require('../models/eventBrite');
-const scraper = require ('../utils/scraper.js')
+const scraper = require ('../utils/scraper.js');
+const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET;
 
-const registerProfile = async (req, res) => {
-    const newUser = req.body; // {name,email,password}
-    const response = await user.createUser(newUser);
-    res.status(201).json({
-        "message": `Creado: ${newUser.name}`
-    });
-}
 const getAllUsers = async (req, res) => {
+  try {
+    const token = req.cookies["access-token"]; // Obtén el JWT almacenado en la cookie
+    const secretKey = jwtSecret; // Reemplaza esto con tu clave secreta
+
+    // Desencripta el JWT para obtener la información del usuario logueado
+    const decodedToken = jwt.verify(token, secretKey);
+    const userEmail = decodedToken.email;
+
     let users;
     if (req.query.email) {
-        users = await users.getUsersByEmail(req.query.email);
+      users = await user.getUsersByEmail(req.query.email);
+    } else {
+      // Filtra los usuarios por el email del usuario logueado
+      users = await user.getUsersByEmail(userEmail);
     }
-    else {
-        users = await users.getUsers();
-    }
-    res.status(200).json(users); 
-}
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error al obtener los usuarios:', error);
+    res.status(500).json({ message: 'Error al obtener los usuarios' });
+  }
+};
+
 const editProfile = async (req, res) => {
    
     const dataUser = req.body; // {name,email,password ,new_email}
@@ -36,22 +45,6 @@ const deleteProfile = async (req, res) => {
         "message": `Borrado ${response.email}`
     });
 }
-
-const userLogout = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const result = await user.logoutUser(email, password);
-
-      if (result.length > 0) {
-        res.status(200).json({ message: 'Login actualizado' });
-      } else {
-        res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-    } catch (err) {
-      console.error('Error', err);
-      res.status(500).json({ message: 'Error en el servidor' });
-    }
-  }
   const getFavorites = async (req, res) => {
     let fav;
     
@@ -184,13 +177,10 @@ const searchAll = async (req,res) => {
     }
 }
 
-module.exports = {
-        
-    registerProfile,
+module.exports = {     
     getAllUsers,
     editProfile,
     deleteProfile,
-    userLogout,
     getEvents,
     createEvent,
     editEvent,
@@ -203,5 +193,4 @@ module.exports = {
     searchAll,
     getEvents,
     getFavorites
-
 }

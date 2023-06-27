@@ -16,13 +16,15 @@ html(lang="en")
     h1.title-signUp Registrate, es gratis!
     main
       form#signUpForm
-        article.form2-container
-            label(for='name') Introduzca su nombre:
-            input(type="text" name="name" id="name" placeholder="Usuario")
-            label(for='email') Introduzca su email:
-            input(type="email" name="email" id="email" placeholder="ejemplo@email.com")
-            label(for='password') Introduzca su contraseña:
-            input(type="password" name="password" id="password" placeholder="Contraseña")
-            button(type="submit" id="signupButton") Sign up
+  article
+    h2 Sign Up
+    p Introduzca su nombre:
+      input(type="text" name="name" id="name" placeholder="usuario")
+    p Introduzca su email:
+      input(type="email" name="email" id="email" placeholder="ejemplo@email.com" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" required)
+    p Introduzca su contraseña:
+      input(type="password" name="password" id="password" placeholder="Contraseña" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required)
+  button(type="submit" id="signupButton") Enviar
+
     script(type="module", src="./script.js")
     include ./footer

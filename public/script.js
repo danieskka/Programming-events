@@ -61,9 +61,6 @@ function createCard(result) {
   const description = document.createElement('p');
   description.textContent = result.description;
 
-  const info = document.createElement('p');
-  info.textContent = result.info;
-
   card.appendChild(title);
   card.appendChild(image);
   card.appendChild(description);
@@ -266,7 +263,6 @@ eventsDetails.addEventListener('click', async function(event) {
   }
 })
 };
-
     
 
 // DELETE ADMIN
@@ -456,32 +452,31 @@ if (document.getElementById('getUsers')) {
 
 //Datos Profile
 if (document.querySelector('section.loadProfile')) {
-  var email = 'prueba@gmail.com';
-  var url = '/api/user?email=' + encodeURIComponent(email);
-
-  fetch(url)
+  fetch('/api/user')
     .then(response => response.json())
     .then(data => {
-      var profiles = Array.isArray(data) ? data : [];
-      var mainContainer = document.querySelector('section.loadProfile');
-      var ulElement = document.createElement('ul');
-
-      profiles.forEach(function(profile) {
+      if (Array.isArray(data) && data.length > 0) {
+        var profile = data[0];
         var profileData = {
           name: profile.name,
           email: profile.email,
-          password: '****'
+          password: '****',
+          admin: profile.admin,
+          login: profile.login
         };
+
+        var mainContainer = document.querySelector('section.loadProfile');
+        var ulElement = document.createElement('ul');
 
         Object.keys(profileData).forEach(function(key) {
           var liElement = document.createElement('li');
           liElement.textContent = key + ': ' + profileData[key];
           ulElement.appendChild(liElement);
         });
-      });
 
-      mainContainer.innerHTML = '';
-      mainContainer.appendChild(ulElement);
+        mainContainer.innerHTML = '';
+        mainContainer.appendChild(ulElement);
+      }
     })
     .catch(function(error) {
       console.error('Error:', error);
