@@ -61,9 +61,6 @@ function createCard(result) {
   const description = document.createElement('p');
   description.textContent = result.description;
 
-  const info = document.createElement('p');
-  info.textContent = result.info;
-
   card.appendChild(title);
   card.appendChild(image);
   card.appendChild(description);

@@ -13,7 +13,7 @@ const extracteventData = async (url,browser) => {
         eventData['name'] = await page.$eval('.event-title', name => name.innerText)       
         // eventData['price'] = await page.$eval('.Stack_root__1ksk7 > p:nth-of-type(3)', priceElement => priceElement.innerText);
         eventData['image'] = await page.$eval('img', img => img.src)
-        eventData['info'] = await page.$eval(".event-details__section", info => info.innerText)
+        eventData['info'] = await page.$eval(".event-details__section", info => info.innerText.slice(0,200) + '...')
         eventData['description'] = await page.$eval('.event-details__main-inner', description=>description.innerText.slice(0,200) + '...')
         eventData['links'] = await page.$$eval('.Stack_root__1ksk7:first-child', links => links.href)
         // (a => a.href))
