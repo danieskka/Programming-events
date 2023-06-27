@@ -14,7 +14,7 @@ html(lang="en")
                     input(type="text" name="name" id="name" maxlength="50" required)
 
                     label(for="image") Subir Imagen:
-                    input(type="file" accept="image/*" name="image" id="image" required)
+                    input(type="url"  name="image" id="image" required)
 
                     label(for="info") Localizacion:
                     input(type="text" name="info" id="info" maxlength="50" required)
@@ -22,7 +22,12 @@ html(lang="en")
                     label(for="description") Descripción:
                     input(type="text" name="description" id="description" maxlength="500" required)
 
-                    input(type="submit" value="Crear")
+                    input(type="submit" value="Crear" id='crear')
 
+            p#message
+
+            section.events 
+                h3.main-events Events
+                section.event-list-container  
     script(type="module", src="script.js")   
         include ./footer

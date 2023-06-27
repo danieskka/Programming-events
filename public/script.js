@@ -1,4 +1,10 @@
-// Logica Buscador
+/**
+ * Función para el event listener de click en el botón de búsqueda.
+ * Realiza una búsqueda utilizando los valores de los campos de búsqueda y ubicación.
+ * Muestra los resultados en el DOM.
+ * @param {Event} event - El objeto de evento del click.
+ */
+
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -76,7 +82,14 @@ if (document.getElementById('searchButton')) {
     }
   });
 }
-//MENU HAMBURGUESA
+
+
+//*********************MENU HAMBURGUESA*********************
+
+/**
+ * Función para controlar el toggle del botón del menú y del contenedor de navegación del DOM
+ */
+
 const toggleButton = document.getElementById('menu');
 const navWrapper = document.getElementById('nav')
 
@@ -93,132 +106,171 @@ navWrapper.addEventListener('click',e => {
 })
 
 
+// ************************DASHBOARD**************************
+
+//POST ADMIN
+/**
+ * Maneja el evento de envío del formulario.
+ *
+ * @param {Event} event - El objeto del evento de envío del formulario.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa el evento.
+ */
+const form = document.getElementById('event-form');
 
 //Funcion singup
 if (document.getElementById('signupButton')) {
-  document.getElementById('signupButton').addEventListener('click', (event) => {
+  document.getElementById('signupButton').addEventListener('click', function(event) {
     event.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+  const name = document.getElementById('name').value;
+  const image = document.getElementById('image').files[0];
+  const info = document.getElementById('info').value;
+  const description = document.getElementById('description').value;
 
-    const userData = {
-      name: name,
-      email: email,
-      password: password
-    };
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('image', image);
+  formData.append('info', info);
+  formData.append('description', description);
 
-    fetch('api/user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData)
-    })
-      .then(response => {
-        if (response.ok) {
-          console.log('Datos enviados correctamente');
-          
-        } else {
-          console.error('Error al enviar los datos');
-          
-        }
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-        
-      });
-  });
-}
-//Funcion login
-if (document.getElementById('loginButton')) {
-  document.getElementById('loginButton').addEventListener('click', (event) => {
-    event.preventDefault();
+  try {
+    const event = new Event({
+      name: formData.get('name'),
+      image: formData.get('image'),
+      info: formData.get('info'),
+      description: formData.get('description'),
+    });
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    await event.save();
 
-    const userData = {
-      email: email,
-      password: password
-    };
+    console.log('Evento guardado en MongoDB');
+  } catch (error) {
+    console.error('Error al guardar el evento en MongoDB:', error);
+  }
+});
 
-    fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData)
-    })
-      .then(response => {
-        if (response.ok) {
-          // Crea la cookie
-          //const cookieValue = JSON.stringify(UserData);
-          //const expirationDate = new Date();
-          //expirationDate.setTime(expirationDate.getTime() + (60 * 60 * 1000)); //Duracion de la cookie(milisegundos)
-          //document.cookie = `cookieLogin=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/`;//Habilitada para toda la web
 
-          console.log('Estado actualizado');
-        } else {
-          console.error('Error');
-        }
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-      });
-  });
-}
 
-if (document.getElementById('logoutButton')) {
-  document.getElementById('logoutButton').addEventListener('click', (event) => {
-    event.preventDefault();
+//     const editForm = document.createElement('form');
+//     editForm.classList.add('edit-form');
+
+//     editForm.innerHTML = `
+//       <label for="edit-name">Nombre:</label>
+//       <input type="text" id="edit-name" value="${eventContainer.querySelector('.name').textContent}">
+//       <label for="edit-image">Imagen:</label>
+//       <input type="text" id="edit-image" value="${eventContainer.querySelector('.image').src}">
+//       <label for="edit-info">Información:</label>
+//       <input type="text" id="edit-info" value="${eventContainer.querySelector('.info').textContent}">
+//       <label for="edit-description">Descripción:</label>
+//       <textarea id="edit-description">${eventContainer.querySelector('.description').textContent}</textarea>
+//       <button type="submit">Actualizar</button>
+//     `;
+
+//     eventContainer.appendChild(editForm);
+
+//     editForm.addEventListener('submit', async function(event) {
+//       event.preventDefault();
+
+//       const updatedName = document.getElementById('edit-name').value;
+//       const updatedImage = document.getElementById('edit-image').value;
+//       const updatedInfo = document.getElementById('edit-info').value;
+//       const updatedDescription = document.getElementById('edit-description').value;
+
+//       const updatedEventData = {
+//         name: updatedName,
+//         image: updatedImage,
+//         info: updatedInfo,
+//         description: updatedDescription
+//       };
+
+//       try {
+//         const response = await fetch(`/api/ads`, {
+//           method: 'PUT',
+//           headers: {
+//             'Content-Type': 'application/json'
+//           },
+//           body: JSON.stringify(updatedEventData)
+//         });
+
+//         if (response.ok) {
+//           const data = await response.json();
+
+//           eventContainer.querySelector('.name').textContent = data.name;
+//           eventContainer.querySelector('.image').src = data.image;
+//           eventContainer.querySelector('.info').textContent = data.info;
+//           eventContainer.querySelector('.description').textContent = data.description;
+
+//           editForm.remove();
+//         } else {
+//           throw new Error('Error al actualizar el evento');
+//         }
+//       } catch (error) {
+//         console.error(error);
+//       }
+//     });
+//   });
+// })
+
+
+// const updateButtons = document.querySelectorAll('.edit');
+// updateButtons.forEach(updateButton => {
+//   updateButton.addEventListener('click', function(event) {
+//     if(event.target.textContent === 'Editar'){
+//       const eventContainer = updateButton.parenElement.parenElement;
+//       const editForm = document.createElement('form');
+//       editForm.classList.add('edit-form');
+//       editForm.innerHTML = `
+//       <label for="name">Nombre:</label>
+//       <input type="text" id="name" value="${eventContainer.querySelector('p:nth-child(1)').textContent}">
+//       <label for="image">Imagen:</label>
+//       <input type="text" id="image" value="${eventContainer.querySelector('p:nth-child(2)').textContent}">
+//       <label for="info">Información:</label>
+//       <input type="text" id="info" value="${eventContainer.querySelector('p:nth-child(3)').textContent}">
+//       <label for="description">Descripción:</label>
+//       <textarea id="description">${eventContainer.querySelector('p:nth-child(4)').textContent}</textarea>
+//       <button type="submit">Actualizar</button>
+//     `;
+//     eventContainer.innerHTML += editForm;
+
+//     }
     
-    // Obtener el valor de la cookie 'cookieLogin'
-    const cookieValue = getCookieValue('cookieLogin');
 
-    //Convertimos a JSON
-    const data = JSON.parse(cookieValue);
-    const email = data.email;
-    const password = data.password;
 
-    const postData = {
-      email: email,
-      password: password
-    };
+// DELETE ADMIN
 
-    fetch('/api/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(postData)
-    })
-      .then(response => {
-        if (response.ok) {
-          console.log('Logout perita ');
-          // Elimina la cookie
-          document.cookie = 'cookieLogin=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;';
-        } else {
-          console.error('Error en el logout');
-        }
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
+// const eventsContainer = document.querySelector('.event-list-container');
+
+// eventsContainer.addEventListener('click', function(event) {
+//   if (event.target.id === 'delete') {
+//     const eventContainer = event.target.closest('.event-container');
+//     eventContainer.remove();
+//   }
+// });
+
+// DELETE ADMIN
+const eventsContainer = document.querySelector('.event-list-container');
+eventsContainer.addEventListener('click', async function(event) {
+  if (event.target.id === 'delete') {
+    const eventContainer = event.target.closest('.event-container');
+    const eventName = document.querySelector('event-container>p:nth-child(1)')
+
+    try {
+      const response = await fetch('/api/ads', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: eventName })
       });
-  });
-}
 
-/*
-if (document.getElementById('logoutButton')) {
-  document.getElementById('logoutButton').addEventListener('click', (event) => {
-    event.preventDefault();
-    console.log('llega?');
-    const cookieValue = getCookieValue('cookieLogin');
-*/
-
-
-
-
-
+      if (response.ok) {
+        eventContainer.remove();
+      } else {
+        throw new Error('Error al eliminar el evento');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+});
 
