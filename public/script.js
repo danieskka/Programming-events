@@ -61,16 +61,20 @@ function createCard(result) {
   const description = document.createElement('p');
   description.textContent = result.description;
 
+  const info = document.createElement('p');
+  info.textContent = result.info;
+
   card.appendChild(title);
   card.appendChild(image);
   card.appendChild(description);
+  card.appendChild(info);
 
   return card;
 }
 
 function createFavButton(card, result) {
   const favButton = document.createElement('button');
-  favButton.textContent = 'Agregar evento a favoritos';
+  favButton.textContent = '';
 
   favButton.addEventListener('click', async function() {
     try {
@@ -188,6 +192,7 @@ form.addEventListener('submit', async function(event) {
 
 //PUT ADMIN
 const eventsDetails = document.querySelector('.event-list-container');
+if(document.querySelector('.event-list-container')) {
 eventsDetails.addEventListener('click', async function(event) {
   if (event.target.id === 'edit') {
     const eventContainer = event.target.closest('.event-container');
@@ -260,7 +265,8 @@ eventsDetails.addEventListener('click', async function(event) {
       }
     });
   }
-});
+})
+};
 
     
 
