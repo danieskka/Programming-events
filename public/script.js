@@ -107,14 +107,13 @@ navWrapper.addEventListener('click',e => {
 
 
 //Funcion singup
-if (document.getElementById('signupButton')) {
-  document.getElementById('signupButton').addEventListener('click', function(event) {
-    event.preventDefault();
-}
+// if (document.getElementById('signupButton')) {
+//   document.getElementById('signupButton').addEventListener('click', function(event) {
+//     event.preventDefault();
+// }
 
 // ************************DASHBOARD**************************
 
-//POST ADMIN
 //POST ADMIN
 /**
  * Maneja el evento de envío del formulario.
@@ -307,4 +306,3 @@ eventsContainer.addEventListener('click', async function(event) {
     }
   }
 });
-}
