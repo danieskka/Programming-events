@@ -161,59 +161,35 @@ const updateFav = async (favo) => {
     }
     return result
 }
-const loginUser = async (email, password) => {
-    let client;
+const logInUserTrue = async(email) => {
+    let client, result;
     try {
-      client = await pool.connect(); // Abrir conexión a la base de datos
-  
-      const query = 'SELECT * FROM users WHERE email = $1 AND password = $2';
-      const values = [email, password];
-      const result = await client.query(query, values);
-  
-      if (result.rowCount > 0) {
-        
-        const updateQuery = 'UPDATE users SET login = true WHERE email = $1 AND password = $2';
-        await client.query(updateQuery, values);
-      }
-  
-      
-      return result.rows;
-    } catch (err) {
-      console.error('Error', err);
-      throw err;
+        client = await pool.connect();
+        let data = await client.query(queries.loggedTrue, [email]);
+        result = data.rows;
+    } catch(err) {
+        console.log(err);
+        throw err;
     } finally {
-      if (client && client.release) {
         client.release();
-      }
     }
-  }
+    return result
+}
  
-  const logoutUser = async (email, password) => {
-    let client;
+const logInUserFalse = async(email) => {
+    let client, result;
     try {
-      client = await pool.connect(); // Abrir conexión a la base de datos
-  
-      const query = 'SELECT * FROM users WHERE email = $1 AND password = $2';
-      const values = [email, password];
-      const result = await client.query(query, values);
-  
-      if (result.rowCount > 0) {
-        
-        const updateQuery = 'UPDATE users SET login = false WHERE email = $1 AND password = $2';
-        await client.query(updateQuery, values);
-      }
-  
-      
-      return result.rows;
-    } catch (err) {
-      console.error('Error', err);
-      throw err;
+        client = await pool.connect();
+        let data = await client.query(queries.loggedFalse, [email]);
+        result = data.rows;
+    } catch(err) {
+        console.log(err);
+        throw err;
     } finally {
-      if (client && client.release) {
         client.release();
-      }
     }
-  }
+    return result
+}
 
 console.log('SQL connected');
 
@@ -228,8 +204,8 @@ const users_queries = {
     updateFav,
     getFavs,
     getFavsByEmail,
-    loginUser,
-    logoutUser 
+    logInUserTrue,
+    logInUserFalse
 }
 
 module.exports = users_queries;

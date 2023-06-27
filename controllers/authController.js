@@ -1,7 +1,8 @@
 //AUTH CONTROLLER
-const passport = require('passport');
+const express = require('express');
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
+const users = require('../models/queries');
 require("dotenv").config();
 
 const createAndStoreToken = (req,res)=>{
@@ -22,9 +23,26 @@ const createAndStoreToken = (req,res)=>{
     res.cookie("access-token", token, {
         httpOnly: true,
         sameSite: "lax",
-    }).redirect("/");
+    }).json({"success": true, "msj":"Welcome, you are logged in"});
 }
 
+// CONTROLLER LOGOUT
+// Destroy session and clear cookies
+const destroySessionAndClearCookies = (req, res) => {
+    // Now we have to change the user state because he is logging out:
+    let email = req.decoded.email;
+    console.log(email);
+    users.logInUserFalse(email);
+
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        req.session.destroy();
+        res.clearCookie("access-token").redirect('/login');
+    });
+}
+
+
 module.exports = {
-    createAndStoreToken
+    createAndStoreToken,
+    destroySessionAndClearCookies
 }

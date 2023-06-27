@@ -38,21 +38,6 @@ const deleteProfile = async (req, res) => {
         "message": `Borrado ${response.email}`
     });
 }
-const userLogin = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const result = await user.loginUser(email, password);
-
-      if (result.length > 0) {
-        res.status(200).json({ message: 'Login actualizado' });
-      } else {
-        res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-    } catch (err) {
-      console.error('Error', err);
-      res.status(500).json({ message: 'Error en el servidor' });
-    }
-  }
 
 const userLogout = async (req, res) => {
     try {
@@ -209,7 +194,6 @@ module.exports = {
     getAllUsers,
     editProfile,
     deleteProfile,
-    userLogin,
     userLogout,
     getEvents,
     createEvent,

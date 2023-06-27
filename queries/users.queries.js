@@ -19,7 +19,12 @@ const users_queries = {
         WHERE title = $1;`,
     getFavsByEmail: `SELECT * FROM favorites
         WHERE email = $1;`,
-    getAllFavs: `SELECT * FROM favorites;`
-   
+    getAllFavs: `SELECT * FROM favorites;`,
+    loggedTrue: `UPDATE users
+    SET login = true
+    WHERE email=$1;`,
+    loggedFalse: `UPDATE users
+    SET login = false
+    WHERE email=$1` 
 }
 module.exports = users_queries;

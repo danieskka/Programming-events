@@ -9,8 +9,8 @@ eventsApiRouter.delete('/user', eventsApiController.deleteProfile);
 eventsApiRouter.get('/user', eventsApiController.getAllUsers);
 
 // Rutas login/out
-eventsApiRouter.post('/login', eventsApiController.userLogin);
-eventsApiRouter.post('/logout', eventsApiController.userLogout);
+// eventsApiRouter.post('/login', eventsApiController.userLogin);
+// eventsApiRouter.post('/logout', eventsApiController.userLogout);
 
 // Ruta /search
 eventsApiRouter.get('/search', eventsApiController.searchAll);

@@ -350,7 +350,7 @@ if (document.getElementById('loginForm')) {
       email: email,
       password: password
     };
-    fetch('/api/login', {
+    fetch('/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -373,34 +373,7 @@ if (document.getElementById('loginForm')) {
 if (document.getElementById('logoutButton')) {
   document.getElementById('logoutButton').addEventListener('click', (event) => {
     event.preventDefault();
-    // Obtener el valor de la cookie 'cookieLogin'
-    const cookieValue = getCookieValue('cookieLogin');
-    //Convertimos a JSON
-    const data = JSON.parse(cookieValue);
-    const email = data.email;
-    const password = data.password;
-    const postData = {
-      email: email,
-      password: password
-    };
-    fetch('/api/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(postData)
-    })
-      .then(response => {
-        if (response.ok) {
-          console.log('Logout perita ');
-          // Elimina la cookie
-          document.cookie = 'cookieLogin=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;';
-        } else {
-          console.error('Error en el logout');
-        }
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-      });
+  
+    window.location.href = ("/logout")
   });
 }

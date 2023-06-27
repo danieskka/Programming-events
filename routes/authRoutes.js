@@ -5,9 +5,14 @@ const authController = require ('../controllers/authController');
 
 //AUTH ROUTES
 //EMAIL AND PASSWORD - PASSPORT OAUTH 
+
 // Log in
-// authRouter.post("/auth/login", authMiddleware.checkEmailLogIn, authController.createAndStoreToken);
+authRouter.post("/auth/login", authMiddleware.checkEmailLogIn, authController.createAndStoreToken);
+
 // Sign up
 authRouter.post("/auth/signup", authMiddleware.signUpUser, authController.createAndStoreToken);
+
+// Log out
+authRouter.get('/logout', authMiddleware.authCheck, authController.destroySessionAndClearCookies);
 
 module.exports = authRouter
