@@ -106,6 +106,12 @@ navWrapper.addEventListener('click',e => {
 })
 
 
+//Funcion singup
+if (document.getElementById('signupButton')) {
+  document.getElementById('signupButton').addEventListener('click', function(event) {
+    event.preventDefault();
+}
+
 // ************************DASHBOARD**************************
 
 //POST ADMIN
@@ -117,11 +123,7 @@ navWrapper.addEventListener('click',e => {
  */
 const form = document.getElementById('event-form');
 
-//Funcion singup
-if (document.getElementById('signupButton')) {
-  document.getElementById('signupButton').addEventListener('click', function(event) {
-    event.preventDefault();
-  }
+
   const name = document.getElementById('name').value;
   const image = document.getElementById('image').files[0];
   const info = document.getElementById('info').value;
