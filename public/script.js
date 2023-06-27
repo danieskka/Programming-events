@@ -255,30 +255,6 @@ updateButtons.forEach(updateButton => {
   });
 })
 
-
-// const updateButtons = document.querySelectorAll('.edit');
-// updateButtons.forEach(updateButton => {
-//   updateButton.addEventListener('click', function(event) {
-//     if(event.target.textContent === 'Editar'){
-//       const eventContainer = updateButton.parenElement.parenElement;
-//       const editForm = document.createElement('form');
-//       editForm.classList.add('edit-form');
-//       editForm.innerHTML = `
-//       <label for="name">Nombre:</label>
-//       <input type="text" id="name" value="${eventContainer.querySelector('p:nth-child(1)').textContent}">
-//       <label for="image">Imagen:</label>
-//       <input type="text" id="image" value="${eventContainer.querySelector('p:nth-child(2)').textContent}">
-//       <label for="info">Información:</label>
-//       <input type="text" id="info" value="${eventContainer.querySelector('p:nth-child(3)').textContent}">
-//       <label for="description">Descripción:</label>
-//       <textarea id="description">${eventContainer.querySelector('p:nth-child(4)').textContent}</textarea>
-//       <button type="submit">Actualizar</button>
-//     `;
-//     eventContainer.innerHTML += editForm;
-
-//     }
-    
-
 // DELETE ADMIN
 const eventsContainer = document.querySelector('.event-list-container');
 if(document.querySelector('.event-list-container')) {

@@ -111,7 +111,6 @@ const editEvent = async (req, res) => {
     })
 }
 
-
 const addFavorite = async (req, res) => {
 
     const newFav = req.body; // {name,date,location,image,info, description}
