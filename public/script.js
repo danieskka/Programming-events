@@ -71,7 +71,7 @@ function createCard(result) {
 
 function createFavButton(card, result) {
   const favButton = document.createElement('button');
-  favButton.textContent = 'Añadir Favoritos';
+  favButton.textContent = 'Favoritos';
 
   favButton.addEventListener('click', async function() {
     try {
@@ -162,7 +162,6 @@ form.addEventListener('submit', async function(event) {
 
     if (response.ok) {
       const data = await response.json();
-      document.getElementById("message").innerHTML = "Evento creado" 
       console.log(data);
       const eventsContainer = document.querySelector('.event-list-container');
       const section = document.createElement('section');
