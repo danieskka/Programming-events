@@ -1,3 +1,10 @@
+/**
+ * Función para el event listener de click en el botón de búsqueda.
+ * Realiza una búsqueda utilizando los valores de los campos de búsqueda y ubicación.
+ * Muestra los resultados en el DOM.
+ * @param {Event} event - El objeto de evento del click.
+ */
+
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -69,6 +76,10 @@ if (document.getElementById('searchButton')) {
 
 //*********************MENU HAMBURGUESA*********************
 
+/**
+ * Función para controlar el toggle del botón del menú y del contenedor de navegación del DOM
+ */
+
 const toggleButton = document.getElementById('menu');
 const navWrapper = document.getElementById('nav')
 
@@ -88,6 +99,12 @@ navWrapper.addEventListener('click',e => {
 // ************************DASHBOARD**************************
 
 //POST ADMIN
+/**
+ * Maneja el evento de envío del formulario.
+ *
+ * @param {Event} event - El objeto del evento de envío del formulario.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa el evento.
+ */
 const form = document.getElementById('event-form');
 
 form.addEventListener('submit', async function(event) {
@@ -106,6 +123,7 @@ form.addEventListener('submit', async function(event) {
     description
   };
 
+  
   try {
     const response = await fetch('/api/ads', {
       method: 'POST',
@@ -144,38 +162,36 @@ form.addEventListener('submit', async function(event) {
 //PUT ADMIN
 
 // const updateButtons = document.querySelectorAll('.edit');
+
 // updateButtons.forEach(updateButton => {
 //   updateButton.addEventListener('click', async function() {
 //     const eventContainer = updateButton.closest('.event-container');
-//     const eventId = eventContainer.dataset.eventId;
+   
 
-//     // Crear el formulario de edición utilizando template strings
 //     const editForm = document.createElement('form');
 //     editForm.classList.add('edit-form');
 
 //     editForm.innerHTML = `
-//       <label for="name">Nombre:</label>
-//       <input type="text" id="name" value="${eventContainer.querySelector('p:nth-child(1)').textContent}">
-//       <label for="image">Imagen:</label>
-//       <input type="text" id="image" value="${eventContainer.querySelector('p:nth-child(2)').src}">
-//       <label for="info">Información:</label>
-//       <input type="text" id="info" value="${eventContainer.querySelector('p:nth-child(3)').textContent}">
-//       <label for="description">Descripción:</label>
-//       <textarea id="description">${eventContainer.querySelector('p:nth-child(4)').textContent}</textarea>
+//       <label for="edit-name">Nombre:</label>
+//       <input type="text" id="edit-name" value="${eventContainer.querySelector('.name').textContent}">
+//       <label for="edit-image">Imagen:</label>
+//       <input type="text" id="edit-image" value="${eventContainer.querySelector('.image').src}">
+//       <label for="edit-info">Información:</label>
+//       <input type="text" id="edit-info" value="${eventContainer.querySelector('.info').textContent}">
+//       <label for="edit-description">Descripción:</label>
+//       <textarea id="edit-description">${eventContainer.querySelector('.description').textContent}</textarea>
 //       <button type="submit">Actualizar</button>
 //     `;
 
-//     // Agregar el formulario de edición al contenedor del evento
 //     eventContainer.appendChild(editForm);
 
-//     // Manejar el evento de envío del formulario
 //     editForm.addEventListener('submit', async function(event) {
 //       event.preventDefault();
 
-//       const updatedName = document.getElementById('name').value;
-//       const updatedImage = document.getElementById('image').value;
-//       const updatedInfo = document.getElementById('info').value;
-//       const updatedDescription = document.getElementById('description').value;
+//       const updatedName = document.getElementById('edit-name').value;
+//       const updatedImage = document.getElementById('edit-image').value;
+//       const updatedInfo = document.getElementById('edit-info').value;
+//       const updatedDescription = document.getElementById('edit-description').value;
 
 //       const updatedEventData = {
 //         name: updatedName,
@@ -185,7 +201,7 @@ form.addEventListener('submit', async function(event) {
 //       };
 
 //       try {
-//         const response = await fetch(`/api/ads/${eventId}`, {
+//         const response = await fetch(`/api/ads`, {
 //           method: 'PUT',
 //           headers: {
 //             'Content-Type': 'application/json'
@@ -196,13 +212,11 @@ form.addEventListener('submit', async function(event) {
 //         if (response.ok) {
 //           const data = await response.json();
 
-//           // Actualizar los elementos correspondientes dentro del contenedor del evento
 //           eventContainer.querySelector('.name').textContent = data.name;
 //           eventContainer.querySelector('.image').src = data.image;
 //           eventContainer.querySelector('.info').textContent = data.info;
 //           eventContainer.querySelector('.description').textContent = data.description;
 
-//           // Eliminar el formulario de edición
 //           editForm.remove();
 //         } else {
 //           throw new Error('Error al actualizar el evento');
@@ -212,7 +226,7 @@ form.addEventListener('submit', async function(event) {
 //       }
 //     });
 //   });
-// });
+// })
 
 
 // const updateButtons = document.querySelectorAll('.edit');
@@ -237,56 +251,7 @@ form.addEventListener('submit', async function(event) {
 
 //     }
     
-//     updateButton.style.display = 'none';
 
-//     // Manejar el evento de envío del formulario
-//     editForm.addEventListener('submit', async function(event) {
-//       event.preventDefault();
-
-//       const updatedName = document.getElementById('name').value;
-//       const updatedImage = document.getElementById('image').value;
-//       const updatedInfo = document.getElementById('info').value;
-//       const updatedDescription = document.getElementById('description').value;
-
-//       const updatedEventData = {
-//         name: updatedName,
-//         image: updatedImage,
-//         info: updatedInfo,
-//         description: updatedDescription
-//       };
-
-//       try {
-//         const response = await fetch(`/api/ads/${eventContainer.dataset.eventId}`, {
-//           method: 'PUT',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify(updatedEventData)
-//         });
-
-//         if (response.ok) {
-//           const data = await response.json();
-
-//           // Actualizar los elementos correspondientes dentro del contenedor del evento
-//           eventContainer.querySelector('.data:nth-child(1)').textContent = `Evento: ${data.name}`;
-//           eventContainer.querySelector('.data:nth-child(2)').textContent = `Imagen: ${data.image}`;
-//           eventContainer.querySelector('.data:nth-child(3)').textContent = `Localización: ${data.info}`;
-//           eventContainer.querySelector('.data:nth-child(4)').textContent = `Descripción: ${data.description}`;
-
-//           // Mostrar el botón de editar nuevamente
-//           updateButton.style.display = 'block';
-
-//           // Eliminar el formulario de edición
-//           editForm.remove();
-//         } else {
-//           throw new Error('Error al actualizar el evento');
-//         }
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     });
-//   });
-// });
 
 // DELETE ADMIN
 
