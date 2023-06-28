@@ -173,7 +173,7 @@ form.addEventListener('submit', async function(event) {
 
       const newEvent = `
           <p class='data'>${eventData.name}</p>
-          <p class='data'>${eventData.image}</p>
+          <img src=${eventData.image} class='data'>
           <p class='data'>${eventData.info}</p>
           <p class='data'>${eventData.description}</p>
           <button id='delete'>Eliminar</button>
