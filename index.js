@@ -46,6 +46,8 @@ app.use('/',authRoutes);
 // Errores
 app.use(error404);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Puerto funcionando en el siguiente enlace: http://localhost:${port}`)
 })
+
+module.exports = server;
