@@ -26,5 +26,10 @@ Ejecuta "npm run dev" para lanzar el servidor.
 ## Tecnologías utilizadas
 Hemos utilizado tecnologias como HTML5, CSS3, JavaScript, Express, SQL y Mongo.
 ## Screenshots
-
+![](public/screenshots/home.png)
+![](public/screenshots/inicio.png)
+![](public/screenshots/perfil.png)
+![](public/screenshots/registro.png)
+![](public/screenshots/admin.png)
 ## Links
+[View on Render](https://eventos-programacion.onrender.com/)
