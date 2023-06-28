@@ -31,7 +31,6 @@ const createAndStoreToken = (req,res)=>{
 const destroySessionAndClearCookies = (req, res) => {
     // Now we have to change the user state because he is logging out:
     let email = req.decoded.email;
-    console.log(email);
     users.logInUserFalse(email);
 
     req.logout(function(err) {
