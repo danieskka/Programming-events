@@ -8,10 +8,12 @@ const getAllUsers = async (req, res) => {
   try {
     const token = req.cookies["access-token"]; // Obtén el JWT almacenado en la cookie
     const secretKey = jwtSecret; // Reemplaza esto con tu clave secreta
+    console.log(token)
 
     // Desencripta el JWT para obtener la información del usuario logueado
     const decodedToken = jwt.verify(token, secretKey);
     const userEmail = decodedToken.email;
+    console.log(userEmail)
 
     let users;
     if (req.query.email) {
