@@ -485,3 +485,22 @@ if (document.querySelector('section.loadProfile')) {
       console.error('Error:', error);
     });
 }
+
+// Regex
+function validateForm() {
+  var emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+  
+  if (!emailRegex.test(email)) {
+    alert("Por favor, introduce un email válido.");
+    return false;
+  }
+  
+  if (!passwordRegex.test(password)) {
+    alert("La contraseña debe contener al menos 8 caracteres, incluyendo al menos un dígito, una letra minúscula, una letra mayúscula y un carácter especial.");
+    return false;
+  }
+}

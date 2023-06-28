@@ -41,7 +41,7 @@ const checkEmailLogIn = async(req, res, next) => {
                 console.log("++++++>>>", data);
                 next();
             } else {
-                res.status(400).json({ msg: 'Incorrect user or password'});
+                res.status(400).json({ msg: 'Incorrect user or password'})
             }
         }
 

@@ -15,7 +15,7 @@ html(lang="en")
     include ./header
     h1.title-signUp Registrate, es gratis!
     main
-      form#signUpForm
+      form#signUpForm(onsubmit="return validateForm()")
         article.form2-container
             label(for='name') Introduzca su nombre:
             input(type="text" name="name" id="name" placeholder="Usuario")
