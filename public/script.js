@@ -173,7 +173,7 @@ form.addEventListener('submit', async function(event) {
 
       const newEvent = `
           <p class='data'>${eventData.name}</p>
-          <p class='data'>${eventData.image}</p>
+          <img src=${eventData.image} class='data'>
           <p class='data'>${eventData.info}</p>
           <p class='data'>${eventData.description}</p>
           <button id='delete'>Eliminar</button>
@@ -256,6 +256,7 @@ eventsDetails.addEventListener('click', async function(event) {
           eventContainer.querySelector('p:nth-child(4)').textContent = eventData.new_description;
 
           editForm.remove();
+
         } else {
           throw new Error('Error al actualizar el evento');
         }
@@ -274,7 +275,7 @@ if(document.querySelector('.event-list-container')) {
 eventsContainer.addEventListener('click', async function(event) {
   if (event.target.id === 'delete') {
     const eventContainer = event.target.closest('.event-container');
-    const eventName = document.querySelector('event-container>p:nth-child(1)')
+    const eventName = document.querySelector('.data:nth-child(1)')
 
     try {
       const response = await fetch('/api/ads', {
