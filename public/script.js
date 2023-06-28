@@ -486,6 +486,29 @@ if (document.querySelector('section.loadProfile')) {
     });
 }
 
+// Mostrar/ocultar footer si usuario esta login
+
+
+var isLoggedIn = false;
+
+// Función para mostrar u ocultar el footer según el estado de logueo
+function toggleFooter() {
+  var footer = document.querySelector('footer');
+  footer.style.display = isLoggedIn ? 'block' : 'none'; // Usamos ternario :)
+}
+
+// Hacer la solicitud para verificar el estado de logueo
+fetch('/api/user')
+  .then(response => response.json())
+  .then(data => {
+    isLoggedIn = Array.isArray(data) && data.length > 0;
+    toggleFooter();
+  })
+  .catch(function(error) {
+    console.error('Error:', error);
+  });
+
+
 // Regex
 function validateForm() {
   var emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
