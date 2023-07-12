@@ -1,18 +1,16 @@
 const mongoose = require('mongoose');
+require('../utils/mongo_db') 
+const fs = require('fs');
 
 const objectSchema = {
-    id: {
-        type: Number,
-        required: true,
-        unique: true
-    },
     name: {
         type: String,
         required: true,
         unique: true
     },
-    imageg: {
+    image: {
         type: String,
+        default: "https://adoption.microsoft.com/wp-content/uploads/2022/05/developer-icon.png",
         validate: {
             validator: function(url){
                 if(url.indexOf('.jpg') != -1 || url.indexOf('.png') != -1)

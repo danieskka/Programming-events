@@ -3,21 +3,30 @@ html
   head
   link(rel='stylesheet', type='text/css', href='./style.css')
   title Eventos de Programacion
+  link(rel="preconnect", href="https://fonts.googleapis.com")
+  link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+  link(href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap", rel="stylesheet")
+
+  link(rel="preconnect", href="https://fonts.googleapis.com")
+  link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+  link(href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap", rel="stylesheet")
+  
+  
   body
     header.main-header(href='/')
-        a.main-logo LOGO
-          nav#nav.main-nav
+        a.main-logo(href='/')
+          img(src='./assets/logo.png')
+        nav#nav.main-nav
             section.nav-links 
                   a.link-item(href='/login') Iniciar Sesión
                   a.link-item(href='/signup') Registrarse
+                  a.link-item(href='/dashboard') Dashboard
                   a.link-item(href='/profile') Perfil
-                  a.link-item(href='/contacto') Contacto
-          section#menu.menu-toggle
+        section#menu.menu-toggle
                 span
                 span
                 span
-                span
-                span
+                
 
 
-    script(src="script.js")             
+    script(type="module", src="script.js")             

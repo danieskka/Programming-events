@@ -1,19 +1,26 @@
 doctype html
 html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Pagina de login
-    body  
-        h1 Por favor si esta registrado puede iniciar sesion a continuación
-        main
-        form(action="/login/", method="post")
-          article
-            h2 Log In
-              p Introduzca su email:
-                input(type="email" name="email")
-              p Introduzca su contraseña:
-                input(type="password" name="password")
-          button(type="submit") Enviar
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Login
 
-        include ./footer
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap", rel="stylesheet")
+
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap", rel="stylesheet")
+  body
+    include ./header
+    h1.title-login Hola! Me alegro de verte
+    main
+      form#loginForm
+        article.form2-container
+            label(for='email') Email:
+            input(type="email" name="email" id="email")
+            label(for='password') Contraseña:
+            input(type="password" name="password" id="password")
+            button(type="submit" id="loginButton") Enviar
+    include ./footer

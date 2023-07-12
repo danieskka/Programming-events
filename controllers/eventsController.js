@@ -24,6 +24,13 @@ const users = (req, res) => {
 
 const dashboard = (req, res) => {
     res.render("dashboard")
+    // try{
+    //     let dash = await fetch('/api/dashboard');
+    //     let data = dash.createEvent
+    // }
+    // catch(error){
+    //     console.log(error)
+    // }
 }
 
 module.exports = {

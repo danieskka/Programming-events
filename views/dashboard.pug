@@ -1,13 +1,42 @@
 doctype html
 html(lang="en")
     head
-        include ./header
+        link(rel='stylesheet', type='text/css', href='./style.css')
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title dashboard 
-    body  
-        h1 SOLO PERMISO PARA ADMIN: crear y visualizar los eventos de programacion!
+
+        link(rel="preconnect", href="https://fonts.googleapis.com")
+        link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,700&display=swap", rel="stylesheet")
+
+        link(rel="preconnect", href="https://fonts.googleapis.com")
+        link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap", rel="stylesheet")
+    body 
+        include ./header
+        h2.title-form Crear Evento
         main
             section.main-container
+                form#event-form
+                    label(for="name") Nombre del evento:
+                    input(type="text" name="name" id="name" maxlength="50" required)
 
+                    label(for="image") Subir Imagen:
+                    input(type="url"  name="image" id="image" required)
+
+                    label(for="info") Localizacion:
+                    input(type="text" name="info" id="info" maxlength="50" required)
+
+                    label(for="description") Descripción:
+                    input(type="text" name="description" id="description" maxlength="500" required)
+
+                    input(type="submit" value="Crear" id='crear')
+
+            
+
+            section.events 
+                h3.main-events Eventos creados
+                section.event-list-container  
+    script(type="module", src="script.js")   
         include ./footer
